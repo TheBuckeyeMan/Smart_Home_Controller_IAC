@@ -35,6 +35,12 @@ Whats whitelisted and whats not
 How to set up? 
 what does AWS IoT Need?
 
+## Code on the pi?
+How can we deploy lightweight code to the pi
+COnfigrue workflow
+COnfigure CICD Pipeline
+
+
 
 
 ## IAM Roles assocuated with the AWS IoT Core
