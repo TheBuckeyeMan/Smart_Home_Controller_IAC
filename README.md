@@ -40,6 +40,7 @@ what does AWS IoT Need?
 ## IAM Roles assocuated with the AWS IoT Core
 permissions to get triggered from ec2
 Permissions to trigger lambda
+permission to trigger rasberi pi? Maybe?
 
 
 ## AWS IoT Core Details
