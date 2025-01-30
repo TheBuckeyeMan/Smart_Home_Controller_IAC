@@ -44,10 +44,6 @@ output "smart_home_api_gateway_cloudwatch_policy" {
     value = aws_iam_policy.smart_home_api_gateway_cloudwatch_policy.arn
 }
 
-output "smart_home_api_gateway_account_id" {
-    value = aws_api_gateway_account.api_gateway_account.id
-}
-
 output "smart_home_iot_core_cloudwatch_role_arn"{
     value = aws_iam_role.smart_home_iot_core_cloudwatch_role.arn
 }

@@ -3,7 +3,7 @@
 resource "aws_iam_role" "smart_home_ec2_role"{
     name = "smart_home_ec2_role"
     assume_role_policy = jsonencode({
-    Statement = [{
+      Statement = [{
       Effect = "Allow"
       Principal = {
         Service = "ec2.amazonaws.com"
@@ -18,10 +18,11 @@ resource "aws_iam_policy" "iot_policy"{
     name = "smart_home_iot_policy"
     description = "Allow Ec2 to talk to AWS IoT Core"
     policy = jsonencode({
-    Statement = [{
-      Effect   = "Allow"
-      Action   = ["iot:Publish", "iot:Subscribe", "iot:Connect", "iot:Receive"]
-      Resource = "*"
+        Version = "2012-10-17"
+        Statement = [{
+        Effect   = "Allow"
+        Action   = ["iot:Publish", "iot:Subscribe", "iot:Connect", "iot:Receive"]
+        Resource = "*"
     }]
   })
 }
