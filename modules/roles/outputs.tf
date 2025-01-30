@@ -30,14 +30,36 @@ output "smart_home_controller_instance_profile_id"{
 output "smart_home_controller_instance_profile_arn"{
     value = aws_iam_instance_profile.smart_home_controller_instance_profile.arn
 }
-#----------------------------------------------------------------------------------- Roles for EC2 Cloudwatch -----------------------------------------------------------------------------------
-#----------------------------------------------------------------------------------- Roles for API Gateway Cloudwatch -----------------------------------------------------------------------------------
 
+output "smart_home_controller_cloudwatch_role_arn"{
+    value = aws_iam_role.smart_home_iot_core_cloudwatch_role.arn
+}
 
+output "smart_home_controller_loudwatch_policy_arn" {
+    value = aws_iam_policy.smart_home_iot_core_cloudwatch_policy.arn
+}
 
-#----------------------------------------------------------------------------------- Roles for API Gateway Cloudwatch -----------------------------------------------------------------------------------
-#----------------------------------------------------------------------------------- Roles for IoT Core Cloudwatch -----------------------------------------------------------------------------------
+output "smart_home_controller_instance_profile_arn"{
+    value = aws_iam_instance_profile.smart_home_controller_instance_profile.arn
+}
 
+output "smart_home_api_gateway_cloudwatch_role_arn"{
+    value = aws_iam_role.smart_home_api_gateway_cloudwatch_role.arn
+}
 
+output "smart_home_api_gateway_cloudwatch_policy" {
+    value = aws_iam_policy.smart_home_api_gateway_cloudwatch_policy.arn
+}
 
-#----------------------------------------------------------------------------------- Roles for IoT Core Cloudwatch -----------------------------------------------------------------------------------
+output "smart_home_api_gateway_account_id" {
+    value = aws_api_gateway_account.api_gateway_account.id
+}
+
+output "smart_home_iot_core_cloudwatch_role_arn"{
+    value = aws_iam_role.smart_home_iot_core_cloudwatch_role.arn
+}
+
+output "smart_home_iot_core_cloudwatch_policy_arn"{
+    value = aws_iam_policy.smart_home_iot_core_cloudwatch_policy.arn
+}
+

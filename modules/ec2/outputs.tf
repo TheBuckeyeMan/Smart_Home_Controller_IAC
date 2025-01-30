@@ -25,3 +25,11 @@ output "aws_instance_public_ip"{
 output "smart_home_controller_associated_instance_profile"{
     value = aws_instance.smart_home_controller.iam_instance_profile
 }
+
+output "smart_home_controller_associated_instance_profile"{
+    value = aws_instance.smart_home_controller.iam_instance_profile
+}
+
+output "smart_home_controller_associated_cloudwatch_arn"{
+    value = aws_cloudwatch_log_group.smart_home_controller_log_group.arn
+}

@@ -36,3 +36,11 @@ output "aws_iot_topic_rule_Error_handling_lambda_arn"{
 output "aws_iot_topic_rule_enabled"{
     value = aws_iot_topic_rule.iot_rule.enabled
 }
+
+output "smart_home_iot_log_group_arn"{
+    value = aws_cloudwatch_log_group.smart_home_iot_core_log_group.arn
+}
+
+output "aws_iot_smart_home_logging_options_id"{
+    value = aws_iot_logging_options.iot_logging.id
+}
