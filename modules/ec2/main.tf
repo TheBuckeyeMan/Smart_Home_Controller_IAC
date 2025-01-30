@@ -2,6 +2,10 @@
 resource "aws_cloudwatch_log_group" "smart_home_controller_log_group"{
     name = "smart_home_controller_log_group"
     retention_in_days = 7
+
+    tags = {
+        Name = "smart_home_controller_log_group"
+    }
 }
 
 #EC2 Instance Itself
@@ -52,6 +56,7 @@ resource "aws_instance" "smart_home_controller"{
     EOF
 
     tags = {
-        Name = "Smart Home Controller"
+        Name = "smart_home_controller"
+        aws_application = "SmartHomeController"
     }
 }

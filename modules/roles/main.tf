@@ -11,6 +11,10 @@ resource "aws_iam_role" "smart_home_ec2_role"{
       Action = "sts:AssumeRole"
     }]
   })
+
+  tags = {
+        Name = "smart_home_ec2_role"
+    }
 }
 
 #IoT Role Policy
@@ -25,6 +29,10 @@ resource "aws_iam_policy" "iot_policy"{
         Resource = "*"
     }]
   })
+
+  tags = {
+        Name = "iot_policy"
+    }
 }
 
 #Attach the IoT olicy to the Smart Home Ec2 Role Itself
@@ -47,6 +55,10 @@ resource "aws_iam_role" "smart_home_controller_cloudwatch_role"{
       Action = "sts:AssumeRole"
     }]
   })
+
+  tags = {
+        Name = "smart_home_controller_cloudwatch_role"
+    }
 }
 
 #Create Cloudwatch Policy
@@ -66,6 +78,10 @@ resource "aws_iam_policy" "smart_home_controller_cloudwatch_logs_policy"{
       Resource = "arn:aws:logs:*:*:*"
     }]
   })
+
+  tags = {
+        Name = "smart_home_controller_cloudwatch_logs_policy"
+    }
 }
 
 #Attach Cloudwatch Policy
@@ -78,6 +94,9 @@ resource "aws_iam_role_policy_attachment" "attach_cloudwatch_policy"{
 resource "aws_iam_instance_profile" "smart_home_controller_instance_profile"{
     name = "smart_home_controller_instance_profile"
     role = aws_iam_role.smart_home_controller_cloudwatch_role.name
+    tags = {
+        Name = "smart_home_controller_instance_profile"
+    }
 }
 #----------------------------------------------------------------------------------- Roles for EC2 Cloudwatch -----------------------------------------------------------------------------------
 #----------------------------------------------------------------------------------- Roles for API Gateway Cloudwatch -----------------------------------------------------------------------------------
@@ -93,6 +112,9 @@ resource "aws_iam_role" "smart_home_api_gateway_cloudwatch_role"{
       Action = "sts:AssumeRole"
     }]
   })
+  tags = {
+        Name = "smart_home_api_gateway_cloudwatch_role"
+    }
 }
 
 #IAM Policy
@@ -113,6 +135,9 @@ resource "aws_iam_policy" "smart_home_api_gateway_cloudwatch_policy"{
         Resource = "arn:aws:logs:*:*:*"
     }]
     })
+    tags = {
+        Name = "smart_home_api_gateway_cloudwatch_policy"
+    }
 }
 
 #Attach policy to role
@@ -144,6 +169,10 @@ resource "aws_iam_role" "smart_home_iot_core_cloudwatch_role" {
       Action = "sts:AssumeRole"
     }]
   })
+
+  tags = {
+        Name = "smart_home_iot_core_cloudwatch_role"
+    }
 }
 
 #Policy for IoT Cloudwatch Core 
@@ -164,6 +193,10 @@ resource "aws_iam_policy" "smart_home_iot_core_cloudwatch_policy" {
         Resource = "arn:aws:logs:*:*:*"
     }]
     })
+
+    tags = {
+        Name = "smart_home_iot_core_cloudwatch_policy"
+    }
 }
 
 
