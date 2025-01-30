@@ -31,10 +31,6 @@ output "smart_home_controller_instance_profile_arn"{
     value = aws_iam_instance_profile.smart_home_controller_instance_profile.arn
 }
 
-output "smart_home_controller_cloudwatch_role_arn"{
-    value = aws_iam_role.smart_home_iot_core_cloudwatch_role.arn
-}
-
 output "smart_home_controller_loudwatch_policy_arn" {
     value = aws_iam_policy.smart_home_iot_core_cloudwatch_policy.arn
 }
