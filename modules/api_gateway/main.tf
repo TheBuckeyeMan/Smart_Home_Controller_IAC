@@ -36,7 +36,7 @@ resource "aws_api_gateway_integration" "smart_home_integration" {
     http_method = aws_api_gateway_method.smart_home_method.http_method
     integration_http_method = "POST"
     type = "HTTP"
-    uri = "http://${data.aws_instance.smart_home_instance_public_ip.private_ip}:8080/control"
+    uri = "http://${data.aws_instance.smart_home_instance_public_ip.public_ip}:8080/control"
 }
 
 #Create API Gateway Stage so that we can have a publicly accessable URL, and so cloudwatch works
@@ -44,7 +44,7 @@ resource "aws_api_gateway_deployment" "smart_home_api_gateway_deployment"{
     rest_api_id = aws_api_gateway_rest_api.smart_home_api_gateway.id
     
     triggers = {
-        redeployment = timestamp()
+        redeployment = sha1(jsonencode(aws_api_gateway_rest_api.smart_home_api_gateway.body))
     }
 
     lifecycle {

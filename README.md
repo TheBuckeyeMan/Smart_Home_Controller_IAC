@@ -5,6 +5,7 @@ IAC for all required resources for the smart home controller and related resourc
 1.VPC
 2.Connect
 3.Roles
+5.ECR - Do not need to delete if we need to destroy
 4.Ec2
 5.ECR
 6.IOT

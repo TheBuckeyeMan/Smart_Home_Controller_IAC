@@ -28,5 +28,10 @@ resource "aws_route" "smart_home_internet_access" {
 
 }
 
+# Associate Route Table with Public Subnet
+resource "aws_route_table_association" "smart_home_public_route" {
+    subnet_id      = aws_subnet.smart_home_public_subnet.id
+    route_table_id = aws_route_table.smart_home_route_table.id
+}
 
 
