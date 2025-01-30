@@ -1,3 +1,9 @@
+#Create Cloudwatch Log Group
+resource "aws_cloudwatch_log_group" "smart_home_api_gateway_cloudwatch_log_group"{
+    name = "smart_home_api_gateway_cloudwatch_log_group"
+    retention_in_days = 7
+}
+
 #Create a rest gateway for the api gateway 
 resource "aws_api_gateway_rest_api" "smart_home_api_gateway" {
     name = "SmartHomeControllerApi"
@@ -30,5 +36,42 @@ resource "aws_api_gateway_integration" "smart_home_integration" {
     http_method = aws_api_gateway_method.smart_home_method.http_method
     integration_http_method = "POST"
     type = "HTTP"
-    uri = "http://${data.aws_instance.smart_home_instance_public_ip.associate_public_ip_address}:8080/control"
+    uri = "http://${data.aws_instance.smart_home_instance_public_ip.private_ip}:8080/control"
+}
+
+#Create API Gateway Stage so that we can have a publicly accessable URL, and so cloudwatch works
+resource "aws_api_gateway_deployment" "smart_home_api_gateway_deployment"{
+    rest_api_id = aws_api_gateway_rest_api.smart_home_api_gateway.id
+    
+    triggers = {
+        redeployment = timestamp()
+    }
+
+    lifecycle {
+      create_before_destroy = true
+    }
+
+}
+
+#Add stages to the api gateway to expose publically and  for cloudwatch
+resource "aws_api_gateway_stage" "smart_home_api_gateway_stage"{
+    stage_name = "prod"
+    rest_api_id = aws_api_gateway_rest_api.smart_home_api_gateway.id
+    deployment_id = aws_api_gateway_deployment.smart_home_api_gateway_deployment.id
+
+    access_log_settings {
+    destination_arn = aws_cloudwatch_log_group.smart_home_api_gateway_cloudwatch_log_group.arn
+    format = jsonencode({
+      requestId       = "$context.requestId",
+      ip              = "$context.identity.sourceIp",
+      caller          = "$context.identity.caller",
+      user            = "$context.identity.user",
+      requestTime     = "$context.requestTime",
+      httpMethod      = "$context.httpMethod",
+      resourcePath    = "$context.resourcePath",
+      status          = "$context.status",
+      protocol        = "$context.protocol",
+      responseLength  = "$context.responseLength"
+    })
+  }
 }

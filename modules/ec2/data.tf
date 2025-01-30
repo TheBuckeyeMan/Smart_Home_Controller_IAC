@@ -11,3 +11,7 @@ data "aws_security_group" "smart_home_ec2_security_group"{
         values = ["smart_home_ec2_security_group"]
     }
 }
+
+data "aws_iam_instance_profile" "smart_home_controller_instance_profile" {
+    name = "smart_home_controller_instance_profile"
+}

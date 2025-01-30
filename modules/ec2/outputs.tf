@@ -21,3 +21,7 @@ output "aws_instance_ami"{
 output "aws_instance_public_ip"{
     value = aws_instance.smart_home_controller.public_ip
 }
+
+output "smart_home_controller_associated_instance_profile"{
+    value = aws_instance.smart_home_controller.iam_instance_profile
+}
