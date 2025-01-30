@@ -2,12 +2,20 @@
 resource "aws_cloudwatch_log_group" "smart_home_api_gateway_cloudwatch_log_group"{
     name = "smart_home_api_gateway_cloudwatch_log_group"
     retention_in_days = 7
+
+    tags = {
+        Name = "smart_home_api_gateway_cloudwatch_log_group"
+    }
 }
 
 #Create a rest gateway for the api gateway 
 resource "aws_api_gateway_rest_api" "smart_home_api_gateway" {
     name = "SmartHomeControllerApi"
     description = "API Gateway fort smart home controller"
+
+    tags = {
+        Name = "smart_home_api_gateway"
+    }
 }
 
 #Create the API Gateway Resource Itself
@@ -50,7 +58,6 @@ resource "aws_api_gateway_deployment" "smart_home_api_gateway_deployment"{
     lifecycle {
       create_before_destroy = true
     }
-
 }
 
 #Add stages to the api gateway to expose publically and  for cloudwatch
@@ -74,4 +81,8 @@ resource "aws_api_gateway_stage" "smart_home_api_gateway_stage"{
       responseLength  = "$context.responseLength"
     })
   }
+  
+  tags = {
+        Name = "smart_home_api_gateway_stage"
+    }
 }

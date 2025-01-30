@@ -2,6 +2,10 @@
 resource "aws_cloudwatch_log_group" "smart_home_iot_core_log_group"{
     name = "smart_home_iot_core_log_group"
     retention_in_days = 7
+
+    tags = {
+        Name = "smart_home_iot_core_log_group"
+    }
 }
 
 #Alow IoT To send logs to cloudwatch
@@ -16,7 +20,7 @@ resource "aws_iot_thing" "rasberi_pi"{
 }
 
 #IOT Policy
-resource "aws_iot_policy" "pi_policy"{
+resource "aws_iot_policy" "smart_home_pi_policy"{
     name = "smart_home_pi_policy"
     policy = jsonencode({
     Statement = [{
@@ -25,6 +29,10 @@ resource "aws_iot_policy" "pi_policy"{
       Resource = "*"
     }]
   })
+
+  tags = {
+        Name = "smart_home_pi_policy"
+    }
 }
 
 
@@ -36,5 +44,9 @@ resource "aws_iot_topic_rule" "iot_rule" {
     enabled = true
     lambda {
       function_arn = var.Error_handling_lambda_arn.value
+    }
+
+    tags = {
+        Name = "iot_rule"
     }
 }

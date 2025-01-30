@@ -18,4 +18,8 @@ resource "aws_security_group" "smart_home_ec2_security_group" {
         protocol = "-1"
         cidr_blocks = ["0.0.0.0/0"]
     }
+
+    tags = {
+        Name = "smart_home_ec2_security_group"
+    }
 }
