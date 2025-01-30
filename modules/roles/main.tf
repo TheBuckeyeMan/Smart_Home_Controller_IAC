@@ -1,0 +1,174 @@
+#----------------------------------------------------------------------------------- Roles for EC2 -----------------------------------------------------------------------------------
+#Make the Role for the Smart home EC2 Instance
+resource "aws_iam_role" "smart_home_ec2_role"{
+    name = "smart_home_ec2_role"
+    assume_role_policy = jsonencode({
+    Statement = [{
+      Effect = "Allow"
+      Principal = {
+        Service = "ec2.amazonaws.com"
+      }
+      Action = "sts:AssumeRole"
+    }]
+  })
+}
+
+#IoT Role Policy
+resource "aws_iam_policy" "iot_policy"{
+    name = "smart_home_iot_policy"
+    description = "Allow Ec2 to talk to AWS IoT Core"
+    policy = jsonencode({
+    Statement = [{
+      Effect   = "Allow"
+      Action   = ["iot:Publish", "iot:Subscribe", "iot:Connect", "iot:Receive"]
+      Resource = "*"
+    }]
+  })
+}
+
+#Attach the IoT olicy to the Smart Home Ec2 Role Itself
+resource "aws_iam_role_policy_attachment" "iot_attach"{
+    role = aws_iam_role.smart_home_ec2_role.name
+    policy_arn = aws_iam_policy.iot_policy.arn
+}
+#----------------------------------------------------------------------------------- Roles for EC2-----------------------------------------------------------------------------------
+#----------------------------------------------------------------------------------- Roles for EC2 Cloudwatch-----------------------------------------------------------------------------------
+#Create Cloudwatch Role
+resource "aws_iam_role" "smart_home_controller_cloudwatch_role"{
+    name = "smart_home_controller_cloudwatch_role"
+    assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Effect = "Allow"
+      Principal = {
+        Service = "ec2.amazonaws.com"
+      }
+      Action = "sts:AssumeRole"
+    }]
+  })
+}
+
+#Create Cloudwatch Policy
+resource "aws_iam_policy" "smart_home_controller_cloudwatch_logs_policy"{
+    name = "smart_home_cloudwatch_logs_policy"
+    description = "Allow EC2 to write to cloudwatch logs"
+    policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [{
+      Effect   = "Allow",
+      Action   = [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents",
+        "logs:DescribeLogStreams"
+      ],
+      Resource = "arn:aws:logs:*:*:*"
+    }]
+  })
+}
+
+#Attach Cloudwatch Policy
+resource "aws_iam_role_policy_attachment" "attach_cloudwatch_policy"{
+    role = aws_iam_role.smart_home_controller_cloudwatch_role.name
+    policy_arn = aws_iam_policy.smart_home_controller_cloudwatch_logs_policy.arn
+}
+
+#Attach to EC2 Instance Profile - EC2 does NOT Need to be created first in order to deploy
+resource "aws_iam_instance_profile" "smart_home_controller_instance_profile"{
+    name = "smart_home_controller_instance_profile"
+    role = aws_iam_role.smart_home_controller_cloudwatch_role.name
+}
+#----------------------------------------------------------------------------------- Roles for EC2 Cloudwatch -----------------------------------------------------------------------------------
+#----------------------------------------------------------------------------------- Roles for API Gateway Cloudwatch -----------------------------------------------------------------------------------
+resource "aws_iam_role" "smart_home_api_gateway_cloudwatch_role"{
+    name = "smart_home_api_gateway_cloudwatch_role"
+    assume_role_policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [{
+      Effect = "Allow",
+      Principal = {
+        Service = "apigateway.amazonaws.com"
+      },
+      Action = "sts:AssumeRole"
+    }]
+  })
+}
+
+#IAM Policy
+resource "aws_iam_policy" "smart_home_api_gateway_cloudwatch_policy"{
+    name = "smart_home_api_gateway_cloudwatch_policy"
+    description = "Allows API Gateway to write logs to CloudWatch"
+
+    policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [{
+        Effect   = "Allow",
+        Action   = [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents",
+        "logs:DescribeLogStreams"
+        ],
+        Resource = "arn:aws:logs:*:*:*"
+    }]
+    })
+}
+
+#Attach policy to role
+resource "aws_iam_role_policy_attachment" "attach_api_gateway_cloudwatch_policy"{
+    role = aws_iam_role.smart_home_api_gateway_cloudwatch_role.name
+    policy_arn = aws_iam_policy.smart_home_api_gateway_cloudwatch_policy.arn
+}
+
+resource "aws_api_gateway_account" "api_gateway_account" {
+  cloudwatch_role_arn = aws_iam_role.smart_home_api_gateway_cloudwatch_role.arn
+  depends_on = [
+    aws_iam_role.smart_home_api_gateway_cloudwatch_role,
+    aws_iam_role_policy_attachment.attach_api_gateway_cloudwatch_policy
+  ]
+}
+
+#----------------------------------------------------------------------------------- Roles for API Gateway Cloudwatch -----------------------------------------------------------------------------------
+#----------------------------------------------------------------------------------- Roles for IoT Core Cloudwatch -----------------------------------------------------------------------------------
+#IAM Role for IoT Core Resource
+resource "aws_iam_role" "smart_home_iot_core_cloudwatch_role" {
+    name = "smart_home_iot_core_cloudwatch_role"
+    assume_role_policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [{
+      Effect = "Allow",
+      Principal = {
+        Service = "iot.amazonaws.com"
+      },
+      Action = "sts:AssumeRole"
+    }]
+  })
+}
+
+#Policy for IoT Cloudwatch Core 
+resource "aws_iam_policy" "smart_home_iot_core_cloudwatch_policy" {
+    name = "smart_home_iot_core_cloudwatch_policy"
+    description = "Allows IoT Core to write logs to CloudWatch"
+  
+    policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [{
+        Effect   = "Allow",
+        Action   = [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents",
+        "logs:DescribeLogStreams"
+        ],
+        Resource = "arn:aws:logs:*:*:*"
+    }]
+    })
+}
+
+
+#Attach policy to role
+resource "aws_iam_role_policy_attachment" "attach_iot_cloudwatch_policy"{
+    role = aws_iam_role.smart_home_iot_core_cloudwatch_role.name
+    policy_arn = aws_iam_policy.smart_home_iot_core_cloudwatch_policy.arn
+}
+#----------------------------------------------------------------------------------- Roles for IoT Core Cloudwatch -----------------------------------------------------------------------------------

@@ -1,6 +1,17 @@
 # Smart_Home_Controller_IAC
 IAC for all required resources for the smart home controller and related resourcs in the project. Repo will be a multi module IAC repo where we can deploy each resource as neded, and also include a cd.yml for redeployments of the application to support cicd with auto apply. Multi Module repo
 
+## Deployment Order
+1.VPC
+2.Connect
+3.Roles
+5.ECR - Do not need to delete if we need to destroy
+4.Ec2
+5.ECR
+6.IOT
+7.API Gateway
+
+
 
 ## IAM Roles related to the EC2 and VPC
 permissions to accept incomming requests form 

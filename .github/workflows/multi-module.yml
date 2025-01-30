@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       module:
-        description: 'Select the IaC module to deploy [roles, vpc, connect, ec2, api_gateway, ecr]'
+        description: 'Select the IaC module to deploy [roles, vpc, connect, ec2, api_gateway, ecr, iot]'
         required: true
         type: string
       environment:
