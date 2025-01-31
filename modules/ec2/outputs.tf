@@ -29,3 +29,27 @@ output "smart_home_controller_associated_instance_profile"{
 output "smart_home_controller_associated_cloudwatch_arn"{
     value = aws_cloudwatch_log_group.smart_home_controller_log_group.arn
 }
+
+output "smart_home_controller_private_key_pem"{
+    value = tls_private_key.smart_home_controller_private_key.private_key_pem
+}
+
+output "smart_home_controller_private_key_id"{
+    value = tls_private_key.smart_home_controller_private_key.id
+}
+
+output "smart_home_controller_ssh_key_arn"{
+    value = aws_key_pair.smart_home_controller_ssh_key.arn
+}
+
+output "smart_home_controller_ssh_key_id"{
+    value = aws_key_pair.smart_home_controller_ssh_key.id
+}
+
+output "smart_home_controller_ssh_key_name"{
+    value = aws_key_pair.smart_home_controller_ssh_key.key_name
+}
+
+output "smart_home_controller_ssh_key_public_key"{
+    value = aws_key_pair.smart_home_controller_ssh_key.public_key
+}
