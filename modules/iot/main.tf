@@ -43,7 +43,7 @@ resource "aws_iot_topic_rule" "iot_rule" {
     sql_version = "2016-03-23"
     enabled = true
     lambda {
-      function_arn = var.Error_handling_lambda_arn.value
+      function_arn = var.Error_handling_lambda_arn.string
     }
 
     tags = {
