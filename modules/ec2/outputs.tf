@@ -49,3 +49,8 @@ output "smart_home_controller_ssh_key_name"{
 output "smart_home_controller_ssh_key_public_key"{
     value = aws_key_pair.smart_home_controller_ssh_key.public_key
 }
+
+output "ec2_ssh_private_key" {
+  description = "SSH Private Key for EC2"
+  value       = tls_private_key.smart_home_controller_private_key.private_key_pem
+}
