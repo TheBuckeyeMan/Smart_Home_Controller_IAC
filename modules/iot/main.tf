@@ -23,10 +23,11 @@ resource "aws_iot_thing" "rasberi_pi"{
 resource "aws_iot_policy" "smart_home_pi_policy"{
     name = "smart_home_pi_policy"
     policy = jsonencode({
-    Statement = [{
-      Effect   = "Allow"
-      Action   = ["iot:Connect", "iot:Publish", "iot:Subscribe", "iot:Receive"]
-      Resource = "*"
+        Version = "2012-10-17",
+        Statement = [{
+        Effect   = "Allow"
+        Action   = ["iot:Connect", "iot:Publish", "iot:Subscribe", "iot:Receive"]
+        Resource = "*"
     }]
   })
 
