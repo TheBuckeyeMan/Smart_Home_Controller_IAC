@@ -130,10 +130,15 @@ resource "aws_iam_role_policy_attachment" "attach_cloudwatch_policy"{
     policy_arn = aws_iam_policy.smart_home_controller_cloudwatch_logs_policy.arn
 }
 
+resource "aws_iam_role_policy_attachment" "attach_cloudwatch_policy_to_ec2"{
+    role = aws_iam_role.smart_home_ec2_role.name
+    policy_arn = aws_iam_policy.smart_home_controller_cloudwatch_logs_policy.arn
+}
+
 #Attach to EC2 Instance Profile - EC2 does NOT Need to be created first in order to deploy
 resource "aws_iam_instance_profile" "smart_home_controller_instance_profile"{
     name = "smart_home_controller_instance_profile"
-    role = aws_iam_role.smart_home_controller_cloudwatch_role.name
+    role = aws_iam_role.smart_home_ec2_role.name
     tags = {
         Name = "smart_home_controller_instance_profile"
     }
