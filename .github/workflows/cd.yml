@@ -12,23 +12,28 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - name: Set up Terraform
-        uses: hashicorp/setup-terraform@v2
-        with:
-          terraform_version: 1.5.0
-
-      - name: Configure Terraform Cloud API Token
+      - name: Set up SSH Key
         run: |
-          mkdir -p ~/.terraform.d
-          echo '{"credentials": {"app.terraform.io": {"token": "${{ secrets.TFE_TOKEN }}"}}}' > ~/.terraform.d/credentials.tfrc.json
+          mkdir -p ~/.ssh
+          echo "${{ secrets.EC2_SSH_PRIVATE_KEY }}" > ~/.ssh/ec2-key.pem
+          chmod 600 ~/.ssh/ec2-key.pem
 
-      - name: Terraform Init
-        run: terraform init
-        working-directory: ${{ env.CONFIG_DIRECTORY }}
+      - name: SSH into EC2 and Deploy Container
+        run: |
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/ec2-key.pem ec2-user@${{ secrets.EC2_PUBLIC_IP }} << 'EOF'
+            echo "Stopping and removing the existing container..."
+            docker stop smart_home_container || true
+            docker rm smart_home_container || true
 
-      - name: Terraform Apply
-        run: terraform apply -auto-approve -var="aws_access_key=${{ secrets.AWS_ACCESS_KEY_ID }}" -var="aws_secret_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}" -var="LOGGING_BUCKET_NAME=${{ secrets.LOGGING_BUCKET_NAME }}" -var="LOGGING_BUCKET_KEY=${{ secrets.LOGGING_BUCKET_KEY }}" -var="LANDING_BUCKET=${{ secrets.LANDING_BUCKET }}" -var="AUDIO_BUCKET_KEY=${{ secrets.AUDIO_BUCKET_KEY }}" -var="VIDEO_BUCKET_KEY=${{ secrets.VIDEO_BUCKET_KEY }}" -var="YOUTUBE_BUCKET_KEY=${{ secrets.YOUTUBE_BUCKET_KEY }}" -var="SPEECH_BUCKET_KEY=${{ secrets.SPEECH_BUCKET_KEY }}"
-        working-directory: ${{ env.CONFIG_DIRECTORY }}
+            echo "Pulling latest container from ECR..."
+            aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin ${{ secrets.ECR_REGISTRY }}
+            docker pull ${{ secrets.ECR_REGISTRY }}/smart-home-controller:latest
+
+            echo "Running the new container..."
+            docker run -d --name smart_home_container -p 8080:8080 ${{ secrets.ECR_REGISTRY }}/smart-home-controller:latest
+
+            echo "Deployment complete!"
+          EOF
