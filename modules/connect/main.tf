@@ -9,7 +9,13 @@ resource "aws_security_group" "smart_home_ec2_security_group" {
         cidr_blocks = ["0.0.0.0/0"] #This will be restricted later in API Gateway ID's
     }
 
-    # Specify SSH if we want for debugging
+    # Allow for SSH for Github Actions to Make Container Updates (Restrict to Github actions ip range)
+    ingress {
+        from_port = 22
+        to_port = 22
+        protocol = "tcp"
+        cidr_blocks = ["0.0.0.0/0"]  # TODO: Restrict this later to API Gateway ID
+    }
 
     # Allow all outbound traffic
     egress {
