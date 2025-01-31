@@ -30,10 +30,6 @@ output "smart_home_controller_associated_cloudwatch_arn"{
     value = aws_cloudwatch_log_group.smart_home_controller_log_group.arn
 }
 
-output "smart_home_controller_private_key_pem"{
-    value = tls_private_key.smart_home_controller_private_key.private_key_pem
-}
-
 output "smart_home_controller_private_key_id"{
     value = tls_private_key.smart_home_controller_private_key.id
 }
