@@ -3,6 +3,7 @@
 resource "aws_iam_role" "smart_home_ec2_role"{
     name = "smart_home_ec2_role"
     assume_role_policy = jsonencode({
+      Version = "2012-10-17"
       Statement = [{
       Effect = "Allow"
       Principal = {
@@ -41,6 +42,45 @@ resource "aws_iam_role_policy_attachment" "iot_attach"{
     policy_arn = aws_iam_policy.iot_policy.arn
 }
 #----------------------------------------------------------------------------------- Roles for EC2-----------------------------------------------------------------------------------
+#----------------------------------------------------------------------------------- Roles for EC2 to have permission to get ECR Images-----------------------------------------------------------------------------------
+resource "aws_iam_policy" "ecr_policy_for_ec2"{
+    name = "ecr_policy_for_ec2"
+    description = "Allows EC2 to authenticate and pull Docker images from ECR"
+    
+    policy = jsonencode({
+        Version = "2012-10-17"
+        Statement = [
+            {
+                Effect   = "Allow"
+                Action   = [
+                    "ecr:GetAuthorizationToken"  # Allows EC2 to authenticate with ECR
+                ]
+                Resource = "*"
+            },
+            {
+                Effect   = "Allow"
+                Action   = [
+                    "ecr:BatchCheckLayerAvailability",
+                    "ecr:GetDownloadUrlForLayer",
+                    "ecr:BatchGetImage"
+                ]
+                Resource = "arn:aws:ecr:us-east-2:339712758982:repository/smart-home"
+            }
+        ]
+    })
+
+    tags = {
+        Name = "ecr_policy_for_ec2"
+    }
+}
+
+resource "aws_iam_role_policy_attachment" "ecr_attach"{
+    role = aws_iam_role.smart_home_ec2_role.name
+    policy_arn = aws_iam_policy.ecr_policy_for_ec2.arn
+}
+
+
+#----------------------------------------------------------------------------------- Roles for EC2 to have permission to get ECR Images-----------------------------------------------------------------------------------
 #----------------------------------------------------------------------------------- Roles for EC2 Cloudwatch-----------------------------------------------------------------------------------
 #Create Cloudwatch Role
 resource "aws_iam_role" "smart_home_controller_cloudwatch_role"{
