@@ -30,7 +30,7 @@ output "aws_iot_topic_rule_swl"{
 }
 
 output "aws_iot_topic_rule_Error_handling_lambda_arn"{
-    value = var.Error_handling_lambda_arn.string
+    value = var.Error_handling_lambda_arn
 }
 
 output "aws_iot_topic_rule_enabled"{
