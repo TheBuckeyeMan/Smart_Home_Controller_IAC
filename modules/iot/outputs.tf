@@ -7,14 +7,14 @@ output "aws_iot_resource_arn"{
 }
 
 output "aws_iot_policy_name"{
-    value = aws_iot_policy.pi_policy.name
+    value = aws_iot_policy.smart_home_pi_policy.name
 }
 
 output "aws_iot_policy_id"{
-    value = aws_iot_policy.pi_policy.id
+    value = aws_iot_policy.smart_home_pi_policy.id
 }
 output "aws_iot_policy_arn"{
-    value = aws_iot_policy.pi_policy.arn
+    value = aws_iot_policy.smart_home_pi_policy.arn
 }
 
 output "aws_iot_topic_rule_id"{
@@ -30,7 +30,7 @@ output "aws_iot_topic_rule_swl"{
 }
 
 output "aws_iot_topic_rule_Error_handling_lambda_arn"{
-    value = aws_iot_topic_rule.iot_rule.lambda.function_arn
+    value = var.Error_handling_lambda_arn.string
 }
 
 output "aws_iot_topic_rule_enabled"{
