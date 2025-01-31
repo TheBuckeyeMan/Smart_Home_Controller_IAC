@@ -1,14 +1,10 @@
-name: Infrastructure CI/CD Pipeline
+name: Deploy to EC2
 
 on:
-  workflow_dispatch:
+    workflow_dispatch:
 
-env:
-  TF_CLOUD_ORGANIZATION: "1220-IAC"
-  CONFIG_DIRECTORY: "./modules/application"
-  
 jobs:
-  Deploy_Resources:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -25,15 +21,17 @@ jobs:
         run: |
           ssh -o StrictHostKeyChecking=no -i ~/.ssh/ec2-key.pem ec2-user@${{ secrets.EC2_PUBLIC_IP }} << 'EOF'
             echo "Stopping and removing the existing container..."
-            docker stop smart_home_container || true
-            docker rm smart_home_container || true
+            docker stop smart-home-controller || true
+            docker rm smart-home-controller || true
+
+            echo "Logging into ECR..."
+            aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
 
             echo "Pulling latest container from ECR..."
-            aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin ${{ secrets.ECR_REGISTRY }}
-            docker pull ${{ secrets.ECR_REGISTRY }}/smart-home-controller:latest
+            docker pull ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/smart-home:smart-home-controller
 
             echo "Running the new container..."
-            docker run -d --name smart_home_container -p 8080:8080 ${{ secrets.ECR_REGISTRY }}/smart-home-controller:latest
+            docker run -d --name smart-home-controller -p 8080:8080 ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/smart-home:smart-home-controller
 
             echo "Deployment complete!"
           EOF
