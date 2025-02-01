@@ -44,7 +44,7 @@ resource "aws_api_gateway_integration" "smart_home_integration" {
     http_method = aws_api_gateway_method.smart_home_method.http_method
     integration_http_method = "POST"
     type = "HTTP"
-    uri = "http://${data.aws_instance.smart_home_instance_public_ip.public_ip}:8080/control"
+    uri = "http://${data.aws_instance.smart_home_instance_public_ip.public_ip}:8080/prod/control"
     
 }
 
@@ -115,7 +115,7 @@ resource "aws_api_gateway_integration" "test_integration" {
     http_method = aws_api_gateway_method.test_method.http_method
     integration_http_method = "POST" #EDIT WITH THE REQUEST TO API GATEWAY TYPE
     type = "HTTP"
-    uri = "http://${data.aws_instance.smart_home_instance_public_ip.public_ip}:8080/testec2"
+    uri = "http://${data.aws_instance.smart_home_instance_public_ip.public_ip}:8080/prod/testec2"
 }
 #--------------------------------------------------------------------Test EC2 Endpoint----------------------------------------------------------------
 
@@ -144,7 +144,7 @@ resource "aws_api_gateway_integration" "test_pi_integration" {
     http_method = aws_api_gateway_method.test_pi_method.http_method
     integration_http_method = "GET" #EDIT WITH THE REQUEST TO API GATEWAY TYPE
     type = "HTTP"
-    uri = "http://${data.aws_instance.smart_home_instance_public_ip.public_ip}:8080/testpi"
+    uri = "http://${data.aws_instance.smart_home_instance_public_ip.public_ip}:8080/prod/testpi"
 }
 #-------------------------------------------------------------- Test PI Endpoint ----------------------------------------------------------------
 
@@ -172,6 +172,6 @@ resource "aws_api_gateway_integration" "test_pi_integration" {
 #     http_method = aws_api_gateway_method.<endpoint name>_method.http_method
 #     integration_http_method = "POST" #EDIT WITH THE REQUEST TO API GATEWAY TYPE
 #     type = "HTTP"
-#     uri = "http://${data.aws_instance.smart_home_instance_public_ip.public_ip}:8080/<endpoint name>"
+#     uri = "http://${data.aws_instance.smart_home_instance_public_ip.public_ip}:8080/prod/<endpoint name>"
 # }
 #--------------------------------------------------------------Add New Endpoints Template ----------------------------------------------------------------
