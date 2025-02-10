@@ -92,6 +92,37 @@ resource "aws_api_gateway_stage" "smart_home_api_gateway_stage"{
         Name = "smart_home_api_gateway_stage"
     }
 }
+
+
+#Associate 200 code with each of the endpoints
+resource "aws_api_gateway_method_response" "api_method_response"{
+    for_each = toset(var.api_endpoints)
+    rest_api_id = aws_api_gateway_rest_api.smart_home_api_gateway.id
+    resource_id = aws_api_gateway_resource[each.value].id
+    http_method = aws_api_gateway_method[each.value].http_method
+    status_code = "200"
+    response_models = {
+    "application/json" = "Empty"
+  }
+}
+
+resource "aws_api_gateway_integration_response" "api_integration_response" {
+    for_each = toset(var.api_endpoints)
+    rest_api_id = aws_api_gateway_rest_api.smart_home_api_gateway.id
+    resource_id = aws_api_gateway_resource[each.value].id
+    http_method = aws_api_gateway_method[each.value].http_method
+    status_code = aws_api_gateway_method_response.api_method_response[each.value].status_code
+
+    response_templates = {
+    "application/json" = <<EOF
+    {
+    "message": "$input.body"
+    }
+    EOF
+    }
+}
+
+
 #--------------------------------------------------------------------Test EC2 Endpoint----------------------------------------------------------------
 resource "aws_api_gateway_resource" "test_ec2_resource"{
     rest_api_id = aws_api_gateway_rest_api.smart_home_api_gateway.id
@@ -99,7 +130,7 @@ resource "aws_api_gateway_resource" "test_ec2_resource"{
     path_part = "testec2" #EDIT WITH THE REQUEST TO API GATEWAY TYPE
 }
 
-#Define MEthod
+#Define Method
 resource "aws_api_gateway_method" "test_method"{
     rest_api_id = aws_api_gateway_rest_api.smart_home_api_gateway.id
     resource_id = aws_api_gateway_resource.test_ec2_resource.id
@@ -149,6 +180,7 @@ resource "aws_api_gateway_integration" "test_pi_integration" {
 
 #--------------------------------------------------------------Add New Endpoints Template ----------------------------------------------------------------
 #Add Depends on Clause to aws_api_gateway_deployment resource
+##ALSO Add new endpoint to api_endpoints variables in variables.tf
 #Create API Gateway Resource for new Endpoint
 # resource "aws_api_gateway_resource" "<endpoint name>_resource"{
 #     rest_api_id = aws_api_gateway_rest_api.smart_home_api_gateway.id

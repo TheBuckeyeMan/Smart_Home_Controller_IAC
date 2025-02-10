@@ -13,3 +13,8 @@ variable "region" {
     type = string
     default = "us-east-2"
 }
+
+variable "api_endpoints"{
+  type = list(string)
+  default = ["testec2","testpi","control"]
+}
