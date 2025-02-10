@@ -72,6 +72,10 @@ resource "aws_api_gateway_integration_response" "smart_home_api_gateway_integrat
     }
     EOF
     }
+
+    depends_on = [
+        aws_api_gateway_integration.smart_home_api_gateway_integration
+    ]
 }
 
 #Create API Gateway Deployment - This deplpys the api gateway specified
