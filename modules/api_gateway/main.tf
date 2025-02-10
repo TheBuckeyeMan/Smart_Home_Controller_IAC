@@ -98,8 +98,8 @@ resource "aws_api_gateway_stage" "smart_home_api_gateway_stage"{
 resource "aws_api_gateway_method_response" "api_method_response"{
     for_each = toset(var.api_endpoints)
     rest_api_id = aws_api_gateway_rest_api.smart_home_api_gateway.id
-    resource_id = aws_api_gateway_resource[each.value].id
-    http_method = aws_api_gateway_method[each.value].http_method
+    resource_id = local.api_gateway_resources[each.key]
+    http_method = local.api_gateway_methods[each.key]
     status_code = "200"
     response_models = {
     "application/json" = "Empty"
@@ -109,9 +109,9 @@ resource "aws_api_gateway_method_response" "api_method_response"{
 resource "aws_api_gateway_integration_response" "api_integration_response" {
     for_each = toset(var.api_endpoints)
     rest_api_id = aws_api_gateway_rest_api.smart_home_api_gateway.id
-    resource_id = aws_api_gateway_resource[each.value].id
-    http_method = aws_api_gateway_method[each.value].http_method
-    status_code = aws_api_gateway_method_response.api_method_response[each.value].status_code
+    resource_id = local.api_gateway_resources[each.key]
+    http_method = local.api_gateway_methods[each.key]
+    status_code = local.api_gateway_method_responses[each.key]
 
     response_templates = {
     "application/json" = <<EOF
@@ -121,7 +121,6 @@ resource "aws_api_gateway_integration_response" "api_integration_response" {
     EOF
     }
 }
-
 
 #--------------------------------------------------------------------Test EC2 Endpoint----------------------------------------------------------------
 resource "aws_api_gateway_resource" "test_ec2_resource"{
