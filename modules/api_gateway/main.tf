@@ -41,7 +41,7 @@ resource "aws_api_gateway_integration" "smart_home_api_gateway_integration" {
     http_method = aws_api_gateway_method.smart_home_methods[each.key].http_method
     integration_http_method = "GET"
     type = "HTTP"
-    uri = "http://${data.aws_instance.smart_home_instance_public_ip.public_ip}:8080/prod/${each.value}"
+    uri = "http://${data.aws_instance.smart_home_instance_public_ip.public_ip}:8080/prod/${each.key}"
 }
 
 #Create API Gateway Method Responses - Creates 200 success message - Adds to aws_api_gateway_rest_api.smart_home_api
