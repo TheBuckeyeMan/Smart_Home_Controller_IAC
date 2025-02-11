@@ -36,7 +36,6 @@ resource "aws_iot_policy" "smart_home_pi_policy"{
     }
 }
 
-
 #IOT Topic Rule to allow it to trigger lambda function ON ERROR
 resource "aws_iot_topic_rule" "iot_rule" {
     name = "iot_error_handler"
