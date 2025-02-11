@@ -6,7 +6,7 @@ resource "aws_security_group" "smart_home_ec2_security_group" {
         from_port = 8080
         to_port = 8080
         protocol = "tcp"
-        cidr_blocks = data.aws_ip_ranges.api_gateway_ip_addresses.cidr_blocks #This will be restricted later in API Gateway ID's
+        cidr_blocks = ["0.0.0.0/0"] #This will be restricted later in API Gateway ID's
     }
 
     # Allow for SSH for Github Actions to Make Container Updates (Restrict to Github actions ip range)
