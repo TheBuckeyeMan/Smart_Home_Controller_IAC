@@ -16,7 +16,7 @@ variable "region" {
 
 variable "api_endpoints"{
   type = list(string)
-  default = ["testec2","testpi","control"]
+  default = ["testec2","testpi","control","sendmessage"]
 }
 
 
