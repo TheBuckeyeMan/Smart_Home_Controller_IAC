@@ -44,3 +44,13 @@ output "smart_home_iot_log_group_arn"{
 output "aws_iot_smart_home_logging_options_id"{
     value = aws_iot_logging_options.iot_logging.id
 }
+
+output "iot_certificate_arn" {
+  description = "AWS IoT Certificate ARN"
+  value       = aws_iot_certificate.smart_home_cert.arn
+}
+
+output "iot_certificate_id" {
+  description = "AWS IoT Certificate ID"
+  value       = aws_iot_certificate.smart_home_cert.id
+}
