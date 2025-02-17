@@ -56,8 +56,17 @@ output "iot_certificate_id" {
   value       = aws_iot_certificate.smart_home_cert.id
 }
 
-output "iot_endpoint" {
+output "iot_endpoint_address" {
     description = "The value of the endpoint we will use for the IOT Core endpoint for MQTT"
-    value = data.aws_iot_endpoint.iot_endpoint.endpoint
+    value = data.aws_iot_endpoint.iot_endpoint.endpoint_address
 }
 
+output "iot_endpoint_type" {
+    description = "The type of the endpoint for IOT Core"
+    value = data.aws_iot_endpoint.iot_endpoint.endpoint_type
+}
+
+output "iot_endpoint_id" {
+    description = "The ID of the endpoint"
+    value = data.aws_iot_endpoint.iot_endpoint.id
+}
