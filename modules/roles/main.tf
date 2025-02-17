@@ -1,3 +1,4 @@
+#Roles Module
 #----------------------------------------------------------------------------------- Roles for EC2 -----------------------------------------------------------------------------------
 #Make the Role for the Smart home EC2 Instance
 resource "aws_iam_role" "smart_home_ec2_role"{

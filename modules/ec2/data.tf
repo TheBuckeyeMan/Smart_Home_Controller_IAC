@@ -1,3 +1,4 @@
+#EC2 Module
 data "aws_subnet" "smart_home_public_subnet"{
     filter{
         name = "tag:Name"

@@ -1,3 +1,4 @@
+#api_gateway Module
 # output "smart_home_api_gateway_arn"{
 #     value = aws_api_gateway_rest_api.smart_home_api_gateway.arn
 # }

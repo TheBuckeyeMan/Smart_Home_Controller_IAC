@@ -1,3 +1,4 @@
+#EC2 Module
 terraform {
   cloud {
     organization = "1220-IAC"
