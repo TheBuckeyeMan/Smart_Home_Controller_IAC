@@ -1,3 +1,4 @@
+#EC2 Module
 output "aws_instance_id"{
     value = aws_instance.smart_home_controller.id
 }

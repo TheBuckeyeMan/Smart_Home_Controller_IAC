@@ -1,3 +1,4 @@
+#ECR Module
 output "aws_ecr_id"{
     value = aws_ecr_repository.smart_home.id
 }

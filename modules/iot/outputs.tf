@@ -1,3 +1,4 @@
+#IoT Module
 output "aws_iot_resource_id"{
     value = aws_iot_thing.rasberi_pi.id
 }
@@ -54,3 +55,9 @@ output "iot_certificate_id" {
   description = "AWS IoT Certificate ID"
   value       = aws_iot_certificate.smart_home_cert.id
 }
+
+output "iot_endpoint" {
+    description = "The value of the endpoint we will use for the IOT Core endpoint for MQTT"
+    value = data.aws_iot_endpoint.iot_endpoint.endpoint
+}
+

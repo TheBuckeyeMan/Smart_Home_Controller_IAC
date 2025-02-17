@@ -1,3 +1,4 @@
+#api_gateway Module
 data "aws_instance" "smart_home_instance_public_ip"{
     filter{
         name = "tag:Name"

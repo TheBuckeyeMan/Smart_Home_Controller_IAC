@@ -1,3 +1,4 @@
+#Connect Module
 data "aws_vpc" "smart_home_vpc"{
     filter {
         name = "tag:Name"

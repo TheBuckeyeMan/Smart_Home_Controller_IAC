@@ -1,3 +1,4 @@
+#VPC Module
 output "aws_vpc_id" {
     value = aws_vpc.smart_home_vpc.id
 }

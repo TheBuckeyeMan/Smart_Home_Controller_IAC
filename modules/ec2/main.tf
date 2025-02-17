@@ -1,3 +1,4 @@
+#EC2 Module
 #Cloudwatch Log Group for the EC2 Instance
 resource "aws_cloudwatch_log_group" "smart_home_controller_log_group"{
     name = "smart_home_controller_log_group"

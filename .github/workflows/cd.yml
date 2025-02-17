@@ -1,3 +1,5 @@
+#IAC Github Repo
+#https://github.com/TheBuckeyeMan/Smart_Home_Controller_IAC
 name: Deploy to EC2
 
 on:
@@ -31,7 +33,7 @@ jobs:
             docker pull ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/smart-home:smart-home-controller
 
             echo "Running the new container..."
-            docker run -d --name smart-home-controller -p 8080:8080 ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/smart-home:smart-home-controller
+            docker run -d --name smart-home-controller -p 8080:8080 -e IOT_BROKERENDPOINT=${{ secrets.IOT_BROKERENDPOINT }} -e IOT_TOPIC=${{ secrets.IOT_TOPIC }} ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/smart-home:smart-home-controller
 
             echo "Deployment complete!"
           EOF

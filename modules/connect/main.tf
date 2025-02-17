@@ -1,3 +1,4 @@
+#Connect Module
 resource "aws_security_group" "smart_home_ec2_security_group" {
     vpc_id = data.aws_vpc.smart_home_vpc.id
 

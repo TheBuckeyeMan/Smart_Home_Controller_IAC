@@ -1,3 +1,4 @@
+#api_gateway Module
 #Create Cloudwatch Group
 resource "aws_cloudwatch_log_group" "smart_home_api_gateway_logs"{
     name = "smart_home_api_gateway_logs"
