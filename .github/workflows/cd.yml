@@ -22,6 +22,30 @@ jobs:
       - name: SSH into EC2 and Deploy Container
         run: |
           ssh -o StrictHostKeyChecking=no -i ~/.ssh/ec2-key.pem ec2-user@${{ secrets.EC2_PUBLIC_IP }} << 'EOF'
+            echo "Checking if Docker is installed..."
+            if ! command -v docker &> /dev/null
+            then
+              echo "Docker not found. Installing Docker..."
+              sudo amazon-linux-extras enable docker
+              sudo yum install -y docker
+              sudo systemctl start docker
+              sudo systemctl enable docker
+              sudo usermod -aG docker ec2-user
+            else
+              echo "Docker is already installed."
+              echo "Checking for Docker updates..."
+              sudo yum update -y docker
+            fi
+
+            echo "Checking if nmap-ncat is installed..."
+            if ! command -v nc &> /dev/null
+            then
+              echo "nmap-ncat not found. Installing..."
+              sudo yum install -y nmap-ncat
+            else
+              echo "nmap-ncat is already installed."
+            fi
+
             echo "Stopping and removing the existing container..."
             docker stop smart-home-controller || true
             docker rm smart-home-controller || true
@@ -37,3 +61,26 @@ jobs:
 
             echo "Deployment complete!"
           EOF
+
+
+
+
+          #Works, but does not INstall docker or the nmap-ncat
+      # - name: SSH into EC2 and Deploy Container
+      #   run: |
+      #     ssh -o StrictHostKeyChecking=no -i ~/.ssh/ec2-key.pem ec2-user@${{ secrets.EC2_PUBLIC_IP }} << 'EOF'
+      #       echo "Stopping and removing the existing container..."
+      #       docker stop smart-home-controller || true
+      #       docker rm smart-home-controller || true
+
+      #       echo "Logging into ECR..."
+      #       aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
+
+      #       echo "Pulling latest container from ECR..."
+      #       docker pull ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/smart-home:smart-home-controller
+
+      #       echo "Running the new container..."
+      #       docker run -d --name smart-home-controller -p 8080:8080 -e IOT_BROKERENDPOINT=${{ secrets.IOT_BROKERENDPOINT }} ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/smart-home:smart-home-controller
+
+      #       echo "Deployment complete!"
+      #     EOF

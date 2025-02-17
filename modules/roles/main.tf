@@ -24,13 +24,20 @@ resource "aws_iam_policy" "iot_policy"{
     name = "smart_home_iot_policy"
     description = "Allow Ec2 to talk to AWS IoT Core"
     policy = jsonencode({
-        Version = "2012-10-17"
-        Statement = [{
-        Effect   = "Allow"
-        Action   = ["iot:Publish", "iot:Subscribe", "iot:Connect", "iot:Receive"]
-        Resource = "*"
-    }]
-  })
+        Version = "2012-10-17",
+        Statement = [
+            {
+                Effect   = "Allow",
+                Action   = ["iot:Connect"],
+                Resource = "arn:aws:iot:us-east-2:339712758982:client/EC2-SmartHome-*"
+            },
+            {
+                Effect   = "Allow",
+                Action   = ["iot:Publish", "iot:Subscribe", "iot:Receive"],
+                Resource = "arn:aws:iot:us-east-2:339712758982:topic/iot/smart-home/#"
+            }
+        ]
+    })
 
   tags = {
         Name = "iot_policy"
