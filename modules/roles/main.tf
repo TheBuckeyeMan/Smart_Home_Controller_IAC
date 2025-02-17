@@ -35,6 +35,11 @@ resource "aws_iam_policy" "iot_policy"{
                 Effect   = "Allow",
                 Action   = ["iot:Publish", "iot:Subscribe", "iot:Receive"],
                 Resource = "arn:aws:iot:us-east-2:339712758982:topic/iot/smart-home/#"
+            },
+            {
+                Effect   = "Allow",
+                Action   = ["iot:TestAuthorization"], 
+                Resource = "*"
             }
         ]
     })
