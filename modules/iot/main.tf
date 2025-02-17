@@ -20,12 +20,19 @@ resource "aws_iot_policy" "smart_home_pi_policy"{
     name = "smart_home_pi_policy"
     policy = jsonencode({
         Version = "2012-10-17",
-        Statement = [{
-        Effect   = "Allow"
-        Action   = ["iot:Connect", "iot:Publish", "iot:Subscribe", "iot:Receive"]
-        Resource = "arn:aws:iot:us-east-2:339712758982:topic/iot/smart-home/#"
-    }]
-  })
+        Statement = [
+            {
+                Effect   = "Allow",
+                Action   = ["iot:Connect"],
+                Resource = "arn:aws:iot:us-east-2:339712758982:client/EC2-SmartHome-*"
+            },
+            {
+                Effect   = "Allow",
+                Action   = ["iot:Publish", "iot:Subscribe", "iot:Receive"],
+                Resource = "arn:aws:iot:us-east-2:339712758982:topic/iot/smart-home/#"
+            }
+        ]
+    })
 
   tags = {
         Name = "smart_home_pi_policy"
