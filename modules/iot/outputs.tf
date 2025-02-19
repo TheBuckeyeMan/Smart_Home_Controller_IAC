@@ -96,32 +96,17 @@ output "ec2_certification_policy_policy" {
 }
 
 output "aws_secrets_manager_ec2_mqtt_cert_arn" {
-    value = aws_secretsmanager_secret.ec2_mqtt_cert.arn
+    value = aws_secretsmanager_secret.ec2_smart_home_mqtt_cert_for_controller.arn
 }
 
 output "aws_secrets_manager_ec2_mqtt_cert_id"{
-    value = aws_secretsmanager_secret.ec2_mqtt_cert.id
+    value = aws_secretsmanager_secret.ec2_smart_home_mqtt_cert_for_controller.id
 }
 
 output "aws_secrets_manager_ec2_mqtt_cert_kms_key_id" {
-    value = aws_secretsmanager_secret.ec2_mqtt_cert.kms_key_id
+    value = aws_secretsmanager_secret.ec2_smart_home_mqtt_cert_for_controller.kms_key_id
 }
 
 output "aws_secrets_manager_ec2_mqtt_cert_version_id" {
     value = aws_secretsmanager_secret_version.ec2_mqtt_cert_version.id
-}
-
-output "aws_secrets_manager_ec2_mqtt_cert_version_id" {
-    value = aws_secretsmanager_secret_version.ec2_mqtt_cert_version.certificate_pem
-}
-
-
-
-resource "aws_secretsmanager_secret_version" "ec2_mqtt_cert_version" {
-    secret_id = aws_secretsmanager_secret.ec2_mqtt_cert.id
-    secret_string = jsonencode({
-        certificate_pem = aws_iot_certificate.ec2_smart_home_cert.certificate_pem
-        private_key = aws_iot_certificate.ec2_smart_home_cert.private_key
-        public_key = aws_iot_certificate.ec2_smart_home_cert.public_key
-    })
 }
