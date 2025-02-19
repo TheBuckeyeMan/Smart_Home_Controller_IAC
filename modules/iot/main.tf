@@ -73,7 +73,42 @@ resource "aws_iam_role_policy" "iot_logging_policy" {
         ]
     })
 }
+#------------------------------------------------------------------------------------ IoT EC2 Application Certification-----------------------------------------------------------------------------------
+#1. Create the certificate 
+resource "aws_iot_certificate" "ec2_smart_home_cert" {
+    active = true
+}
 
+#2. Attach the Certification to the AWS IoT Policy
+#Attach the IOT Certificate to the IoT Policy - so the certificate policy attachment
+resource "aws_iot_policy_attachment" "ec2_policy_attachment" {
+    policy = aws_iot_policy.smart_home_pi_policy.name
+    target = aws_iot_certificate.ec2_smart_home_cert.arn
+}
+
+
+#3. Create the aws secret Manager
+resource "aws_secretsmanager_secret" "ec2_smart_home_mqtt_cert_for_controller" {
+    name = "ec2_smart_home_mqtt_cert_for_controller"
+    description = "Stores IoT Core certificate and private key for EC2 Smart Home Application"
+
+    tags = {
+        Name = "ec2_smart_home_mqtt_cert"
+    }
+}
+
+#4. Store certificates inside of the certificate ma
+#Essentially creating the certification files in aws secrets manager and assigning the corresponging values to them
+resource "aws_secretsmanager_secret_version" "ec2_mqtt_cert_version" {
+    secret_id = aws_secretsmanager_secret.ec2_smart_home_mqtt_cert_for_controller.id
+    secret_string = jsonencode({
+        certificate_pem = aws_iot_certificate.ec2_smart_home_cert.certificate_pem
+        private_key = aws_iot_certificate.ec2_smart_home_cert.private_key
+        public_key = aws_iot_certificate.ec2_smart_home_cert.public_key
+    })
+}
+
+#------------------------------------------------------------------------------------ IoT EC2 Application Certification-----------------------------------------------------------------------------------
 #------------------------------------------------------------------------------------ IoT Things-----------------------------------------------------------------------------------
 #IOT Core "Thing" - This is the device itself
 resource "aws_iot_thing" "rasberi_pi"{

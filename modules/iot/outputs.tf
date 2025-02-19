@@ -70,3 +70,58 @@ output "iot_endpoint_id" {
     description = "The ID of the endpoint"
     value = data.aws_iot_endpoint.iot_endpoint.id
 }
+
+output "ec2_smart_home_cert_arn" {
+    value = aws_iot_certificate.ec2_smart_home_cert.arn
+}
+
+output "ec2_smart_home_cert_id" {
+  value = aws_iot_certificate.ec2_smart_home_cert.id
+}
+
+output "ec2_smart_home_cert_ca_certificate_id" {
+    value = aws_iot_certificate.ec2_smart_home_cert.ca_certificate_id
+}
+
+output "ec2_policy_attachment_arn" {
+    value = aws_iot_policy.smart_home_pi_policy.arn
+}
+
+output "ec2_policy_attachment_id" {
+    value = aws_iot_policy.smart_home_pi_policy.name
+}
+
+output "ec2_certification_policy_policy" {
+    value = aws_iot_policy.smart_home_pi_policy.policy
+}
+
+output "aws_secrets_manager_ec2_mqtt_cert_arn" {
+    value = aws_secretsmanager_secret.ec2_mqtt_cert.arn
+}
+
+output "aws_secrets_manager_ec2_mqtt_cert_id"{
+    value = aws_secretsmanager_secret.ec2_mqtt_cert.id
+}
+
+output "aws_secrets_manager_ec2_mqtt_cert_kms_key_id" {
+    value = aws_secretsmanager_secret.ec2_mqtt_cert.kms_key_id
+}
+
+output "aws_secrets_manager_ec2_mqtt_cert_version_id" {
+    value = aws_secretsmanager_secret_version.ec2_mqtt_cert_version.id
+}
+
+output "aws_secrets_manager_ec2_mqtt_cert_version_id" {
+    value = aws_secretsmanager_secret_version.ec2_mqtt_cert_version.certificate_pem
+}
+
+
+
+resource "aws_secretsmanager_secret_version" "ec2_mqtt_cert_version" {
+    secret_id = aws_secretsmanager_secret.ec2_mqtt_cert.id
+    secret_string = jsonencode({
+        certificate_pem = aws_iot_certificate.ec2_smart_home_cert.certificate_pem
+        private_key = aws_iot_certificate.ec2_smart_home_cert.private_key
+        public_key = aws_iot_certificate.ec2_smart_home_cert.public_key
+    })
+}
