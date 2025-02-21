@@ -59,7 +59,7 @@ jobs:
             docker pull ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/smart-home:smart-home-controller
 
             echo "Running the new container..."
-            docker run -d --name smart-home-controller -p 8080:8080 -e IOT_BROKERENDPOINT=${{ secrets.IOT_BROKERENDPOINT }} ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/smart-home:smart-home-controller
+            docker run -d --name smart-home-controller -p 8080:8080 -e IOT_BROKERENDPOINT=${{ secrets.IOT_BROKERENDPOINT }} -v /tmp/AmazonRootCA1.pem:/tmp/AmazonRootCA1.pem ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/smart-home:smart-home-controller
 
             echo "Deployment complete!"
           EOF
