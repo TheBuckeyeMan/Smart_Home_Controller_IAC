@@ -157,6 +157,32 @@ resource "aws_iam_instance_profile" "smart_home_controller_instance_profile"{
     }
 }
 #----------------------------------------------------------------------------------- Roles for EC2 Cloudwatch -----------------------------------------------------------------------------------
+#----------------------------------------------------------------------------------- Policy for EC2 to have permission to AWS Secrets Manager -----------------------------------------------------------------------------------
+resource "aws_iam_policy" "secretsmanager_policy"{
+    name = "secretsmanager_policy"
+    description = "Allows EC2 to retrieve secrets from AWS Secrets Manager"
+
+    policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect   = "Allow"
+        Action   = [
+          "secretsmanager:GetSecretValue",
+          "secretsmanager:DescribeSecret"
+        ]
+        Resource = "arn:aws:secretsmanager:us-east-2:339712758982:secret:ec2_smart_home_mqtt_cert_for_controller-*"
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "attach_secretsmanager_policy_to_ec2" {
+    role = aws_iam_role.smart_home_ec2_role.name
+    policy_arn = aws_iam_policy.secretsmanager_policy.arn
+}
+#----------------------------------------------------------------------------------- Policy for EC2 to have permission to AWS Secrets Manager-----------------------------------------------------------------------------------
+
 #----------------------------------------------------------------------------------- Roles for API Gateway Cloudwatch -----------------------------------------------------------------------------------
 resource "aws_iam_role" "smart_home_api_gateway_cloudwatch_role"{
     name = "smart_home_api_gateway_cloudwatch_role"
