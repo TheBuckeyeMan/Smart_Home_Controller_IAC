@@ -30,6 +30,7 @@ resource "aws_iot_policy" "smart_home_pi_policy"{
                 Effect   = "Allow",
                 Action   = ["iot:Publish", "iot:Subscribe", "iot:Receive"],
                 Resource = ["arn:aws:iot:us-east-2:339712758982:topic/iot/smart-home/#",
+                            "arn:aws:iot:us-east-2:339712758982:topic/iot/smart-home/commands",
                             "arn:aws:iot:us-east-2:339712758982:topic/$aws/things/*"
                 ]
             }
