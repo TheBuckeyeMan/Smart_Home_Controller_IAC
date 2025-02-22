@@ -87,7 +87,8 @@ resource "aws_iot_policy_attachment" "ec2_policy_attachment" {
     policy = aws_iot_policy.smart_home_pi_policy.name
     target = aws_iot_certificate.ec2_smart_home_cert.arn
 }
-# Ensure the policy is also attached to any existing certificates for the EC2 instance
+
+# Ensure the policy is also attached to any existing certificates for the EC2 instance, not just new ones
 resource "aws_iot_policy_attachment" "ec2_existing_cert_attachment" {
     count  = length(data.aws_iot_certificate.ec2_existing_certs.arns)
     policy = aws_iot_policy.smart_home_pi_policy.name
