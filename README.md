@@ -87,3 +87,16 @@ When we deploy the Ec2 Instance itself it wil install docker by itself
 4. CD Will remove the existing container
 5. CD will pull the new contianer
 6. CD will then run the new docker container 
+
+
+
+
+
+create certificates in iot module
+give them a policy for proper auth
+store the certs in aws secrets manager
+in app
+pull secrets
+store to temp file
+use to connect to topic
+
