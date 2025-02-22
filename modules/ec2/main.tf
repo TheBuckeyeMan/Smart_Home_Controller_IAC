@@ -93,3 +93,14 @@ resource "aws_instance" "smart_home_controller"{
         aws_application = "SmartHomeController"
     }
 }
+
+#Add an elastic IP for AWS API Gateway so we dont have to redeploy each ec2 update
+#Will cost us 3$ per month IF the ec2 instance is not runnning
+resource "aws_eip" "smart_home_elastic_ip" {
+    instance = aws_instance.smart_home_controller.id
+    domain = "vpc"
+
+    tags = {
+        Name = "smart_home_elastic_ip"
+    }
+}

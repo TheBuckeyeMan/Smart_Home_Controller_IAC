@@ -18,6 +18,14 @@ resource "aws_security_group" "smart_home_ec2_security_group" {
         cidr_blocks = ["0.0.0.0/0"]  # TODO: Restrict this later to API Gateway ID
     }
 
+    # Allow MQTT Over TLS (Port 8883)
+    ingress {
+        from_port   = 8883
+        to_port     = 8883
+        protocol    = "tcp"
+        cidr_blocks = ["0.0.0.0/0"]
+    }
+
     # Allow all outbound traffic
     egress {
         from_port = 0
