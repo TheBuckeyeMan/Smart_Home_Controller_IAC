@@ -36,6 +36,8 @@ resource "aws_iam_policy" "iot_policy"{
                 Action   = ["iot:Publish", "iot:Subscribe", "iot:Receive"],
                 Resource = ["arn:aws:iot:us-east-2:339712758982:topic/iot/smart-home/#",
                             "arn:aws:iot:us-east-2:339712758982:topic/iot/smart-home/commands",
+                            "arn:aws:iot:us-east-2:339712758982:topic/iot/smart-home/sportslights",
+                            "arn:aws:iot:us-east-2:339712758982:topic/iot/smart-home/test",
                             "arn:aws:iot:us-east-2:339712758982:topic/$aws/things/*"
                             ]
             },
