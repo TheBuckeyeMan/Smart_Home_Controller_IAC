@@ -3,7 +3,7 @@
 resource "aws_iot_provisioning_template" "smart_home_rasberry_pi_fleet_template"{
     name = "smart_home_rasberry_pi_fleet_template"
     description = "Template to set up new rasberry pi devices to the smart home"
-    provisioning_role_arn = data.aws_iam_role.fleet_provisioning_role
+    provisioning_role_arn = data.aws_iam_role.fleet_provisioning_role.arn
 
     template_body = jsonencode({
     Parameters = {
@@ -44,6 +44,7 @@ resource "aws_iot_topic_rule" "device_disconnection_alert_rule" {
     description = "IOT Role for the template for new devices that will detect when the device goes offline"
     #Im not convinced this is correct
     sql = "Select * FROM $aws/events/presence/disconnected/#"
+    #sql = "SELECT * FROM \"$aws/events/presence/disconnected/+\""
     sql_version = "2016-03-23"
     enabled = true
 

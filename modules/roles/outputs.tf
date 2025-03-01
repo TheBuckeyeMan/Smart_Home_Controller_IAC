@@ -53,3 +53,10 @@ output "smart_home_iot_core_cloudwatch_policy_arn"{
     value = aws_iam_policy.smart_home_iot_core_cloudwatch_policy.arn
 }
 
+output "fleet_provisioning_role_arn" {
+    value = aws_iam_role.fleet_provisioning_role.arn
+}
+
+output "fleet_provisioning_role_id" {
+    value = aws_iam_role.fleet_provisioning_role.id
+}
