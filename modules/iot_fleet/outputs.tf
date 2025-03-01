@@ -1,12 +1,12 @@
-output "template_provisional_iam_role_name"{
+output "template_provisional_iam_role_name_"{
     value = data.aws_iam_role.fleet_provisioning_role.name
 }
 
-output "template_provisional_iam_role_arn"{
+output "template_provisional_iam_role_arn_"{
     value = data.aws_iam_role.fleet_provisioning_role.arn
 }
 
-output "template_provisional_iam_role_name"{
+output "template_provisional_iam_role_name_"{
     value = data.aws_iam_role.fleet_provisioning_role.arn
 }
 

@@ -1,4 +1,5 @@
 #IoT Module
+#IoT Module hosts the Static AWS IoT Resources
 #Create Cloudwatch Log Group
 resource "aws_cloudwatch_log_group" "smart_home_iot_core_log_group"{
     name = "smart_home_iot_core_log_group"
