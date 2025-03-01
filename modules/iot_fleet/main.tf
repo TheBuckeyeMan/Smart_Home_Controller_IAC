@@ -1,5 +1,6 @@
 # Module iot_fleet
 # This template makes the aws IoT Fleet template for the new rasberry pi devices to connect to after we make the template, we atttach the rules to the template below
+#The main purpose is to set up the template to accept the pre installed certificate, then for the device to get a new one automatically for the topic
 resource "aws_iot_provisioning_template" "smart_home_fleet_template"{
     name = "smart_home_fleet_template"
     description = "Template to set up new rasberry pi devices to the smart home"
@@ -22,6 +23,7 @@ resource "aws_iot_provisioning_template" "smart_home_fleet_template"{
         Properties = {
           Status = "ACTIVE"
         }
+        certificateId = { Ref = "certificate" }
       }
       policy = {
         Type = "AWS::IoT::Policy"
@@ -29,13 +31,13 @@ resource "aws_iot_provisioning_template" "smart_home_fleet_template"{
           PolicyName = "smart_home_pi_policy"
         }
       }
-      thingPolicyAttachment = {
-        Type = "AWS::IoT::ThingPrincipalAttachment"
-        Properties = {
-            ThingName = { Ref = "SerialNumber" }
-            Principal = { Ref = "certificate"}
+      thingPrincipalAttachment = { 
+            Type = "AWS::IoT::ThingPrincipalAttachment"
+            Properties = {
+                ThingName = { Ref = "SerialNumber" },
+                Principal  = { Ref = "certificate" }
+            }
         }
-      }
     }
   })
   tags = {
@@ -76,7 +78,8 @@ resource "aws_iot_topic_rule" "device_registration_log_rule"{
     name = "device_registration_log"
     description = "IOT Rule to detect when a new device is registered"
     #NOt convinced this wont have to change
-    sql = "SELECT * FROM $aws/events/thing/+/created"
+    #sql = "SELECT * FROM $aws/events/thing/+/created"
+    sql = "SELECT * FROM \"$aws/events/thing/+/created\""
     sql_version = "2016-03-23"
     enabled = true
 
