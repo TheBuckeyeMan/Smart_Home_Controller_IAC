@@ -26,7 +26,7 @@ resource "aws_iot_provisioning_template" "smart_home_rasberry_pi_fleet_template"
       policy = {
         Type = "AWS::IoT::Policy"
         Properties = {
-          PolicyName = data.aws_iot_policy.smart_home_pi_policy.name
+          PolicyName = "smart_home_pi_policy"
         }
       }
     }
