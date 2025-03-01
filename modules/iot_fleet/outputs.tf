@@ -2,12 +2,12 @@ output "template_provisional_iam_role_name_"{
     value = data.aws_iam_role.fleet_provisioning_role.name
 }
 
-output "template_provisional_iam_role_arn_"{
+output "template_provisional_iam_role_arn"{
     value = data.aws_iam_role.fleet_provisioning_role.arn
 }
 
-output "template_provisional_iam_role_name_"{
-    value = data.aws_iam_role.fleet_provisioning_role.arn
+output "template_provisional_iam_role_id"{
+    value = data.aws_iam_role.fleet_provisioning_role.id
 }
 
 output "iot_fleet_raspberry_pi_termplate_arn" {
