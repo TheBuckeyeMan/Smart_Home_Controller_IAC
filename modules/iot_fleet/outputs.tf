@@ -1,13 +1,13 @@
 output "iot_fleet_raspberry_pi_termplate_arn" {
-    value = aws_iot_provisioning_template.smart_home_rasberry_pi_fleet_template.arn
+    value = aws_iot_provisioning_template.smart_home_fleet_template.arn
 }
 
 output "iot_fleet_raspberry_pi_termplate_id" {
-    value = aws_iot_provisioning_template.smart_home_rasberry_pi_fleet_template.id
+    value = aws_iot_provisioning_template.smart_home_fleet_template.id
 }
 
 output "iot_fleet_raspberry_pi_termplate_name" {
-    value = aws_iot_provisioning_template.smart_home_rasberry_pi_fleet_template.name
+    value = aws_iot_provisioning_template.smart_home_fleet_template.name
 }
 
 output "iot_fleet_raspberry_pi_disconnect_rule_arn" {
