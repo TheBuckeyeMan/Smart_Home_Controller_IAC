@@ -1,7 +1,7 @@
 # Module iot_fleet
 # This template makes the aws IoT Fleet template for the new rasberry pi devices to connect to after we make the template, we atttach the rules to the template below
-resource "aws_iot_provisioning_template" "smart_home_rasberry_pi_fleet_template"{
-    name = "smart_home_rasberry_pi_fleet_template"
+resource "aws_iot_provisioning_template" "smart_home_fleet_template"{
+    name = "smart_home_fleet_template"
     description = "Template to set up new rasberry pi devices to the smart home"
     provisioning_role_arn = data.aws_iam_role.fleet_provisioning_role.arn
 
