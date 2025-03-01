@@ -23,7 +23,7 @@ resource "aws_iot_provisioning_template" "smart_home_fleet_template"{
         Properties = {
           Status = "ACTIVE"
         }
-        certificateId = { Ref = "certificate" }
+        # certificateId = { Ref = "certificate" }
       }
       policy = {
         Type = "AWS::IoT::Policy"
