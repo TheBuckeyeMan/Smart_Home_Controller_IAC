@@ -101,3 +101,58 @@ pull secrets
 store to temp file
 use to connect to topic
 
+# Rasberry pi fleet - How it works
+1. Rasberry Pi Starts with a bootstrap Certificate(We pre install on the device)
+2. The Device requests a new certificate from the AWS Fleet Provisioning
+3. AWS IOT Core assigns a unique certificate to the rasberry pi
+4. AWS IOT Core registeres the device in the fleet as a new IOT Thing
+5. AWS IOT Core attaches policies to allow the device to communicate
+
+# Rasberry pi fleet - Whats Required
+1. Fleet Provisioning Template: Defines how the new devices are registered
+2. IoT Policy: Grants permissions to publish/subscribe
+3. IAM Role: Allows IoT TO create and Manage Devices
+4. IoT Thing Registry: Tracks each registered rasberry pi
+
+# Rasberruy Pi Post Device Registration and Post Authentication
+1. AWS IoT Core assigns a broker endpoint to the device(Same broker endpoint as the Producer) //AWS IoT Core assigns a single MQTT broker endpoint per AWS account and region.
+2. Rasberry pi subscribes to a topic to recieve messages
+3. Rasberry pi publishes messages when actions are completed
+
+# Rasberry pi response
+1. The rasberry pi will publish responses Successufl data to /responses
+1. The rasberry pi will publish responses Successufl data to /errors
+2. IoT COre recieves messages
+3. IoT Rule processes the response and Triggeres sns, email, slack if we have an error(Alternitibvle We can look into storing in DynamoDb in the future)
+4. Log Response Messages
+
+# Implementation for RAsberry pi devices post set up of controller
+1. Configure AWS IoT Core Resoirce
+2. Update IAM Roles + AWS Infra.
+
+
+# Goals and Outcomes
+1. Auto load new certificates on new devices
+2. Detect offline Devices: LEverage oT Lifecycle Events for best practice
+2. Daily check to Monitor existing devices, send alert in the event one goes down `Yes! AWS IoT Core provides a feature called "Device Shadow" and "MQTT Last Will & Testament (LWT)"                                                                                   to track device connection status.
+                                                                                    You can use AWS Lambda + IoT Device Shadow or IoT Lifecycle Events to detect if a device goes offline.` The AWS IoT Device Shadow stores a JSON document that tracks device state, including last connection timestamp. - not recomended for best practice
+
+
+# Questions asked
+Can IoT Core save directly to AwsDynamoDb or AWS S3 W/O Lambda - Yes
+
+
+# Cost
+## IoT Related
+1$ per million Requests
+Fleet Provisioning: a 10cent 1 time fee per device
+Device Shaddow(If Used) 1.25$ per million Operations
+ 
+ ## Dynamo
+1.25$ per million write requests
+
+## SNS
+50cent per million publishes
+Email: Free
+SMS 0.0075$ per message
+Webhook: Free
