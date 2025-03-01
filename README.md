@@ -8,6 +8,7 @@ IAC for all required resources for the smart home controller and related resourc
 4.ECR - Do not need to delete if we need to destroy
 5.Ec2
 6.IOT
+7.IOT_FLEET
 7.API Gateway
 
 

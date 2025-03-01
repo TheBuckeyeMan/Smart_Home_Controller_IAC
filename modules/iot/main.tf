@@ -28,11 +28,13 @@ resource "aws_iot_policy" "smart_home_pi_policy"{
             },
             {
                 Effect   = "Allow",
-                Action   = ["iot:Publish", "iot:Subscribe", "iot:Receive"],
+                Action   = ["iot:Connect", "iot:Publish", "iot:Subscribe", "iot:Receive"],
                 Resource = ["arn:aws:iot:us-east-2:339712758982:topic/iot/smart-home/#",
                             "arn:aws:iot:us-east-2:339712758982:topic/iot/smart-home/commands",
                             "arn:aws:iot:us-east-2:339712758982:topic/iot/smart-home/sportslights",
                             "arn:aws:iot:us-east-2:339712758982:topic/iot/smart-home/test",
+                            "arn:aws:iot:us-east-2:339712758982:topic/iot/raspberry_pi/responses",
+                            "arn:aws:iot:us-east-2:339712758982:topic/iot/raspberry_pi/errors",
                             "arn:aws:iot:us-east-2:339712758982:topic/$aws/things/*"
                 ]
             }
@@ -138,6 +140,7 @@ resource "aws_iot_policy_attachment" "pi_policy_attachment" {
     policy = aws_iot_policy.smart_home_pi_policy.name
     target = aws_iot_certificate.smart_home_cert.arn
 }
+
 
 # 🔹 What happens?
 

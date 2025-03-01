@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
     inputs:
       module:
-        description: 'Select the IaC module to deploy [vpc, connect, roles, ecr, ec2, iot, api_gateway]'
+        description: 'Select the IaC module to deploy [vpc, connect, roles, ecr, ec2, iot, iot_fleet, api_gateway]'
         required: true
         type: string
       environment:
@@ -47,6 +47,7 @@ jobs:
         ecr) echo "module_path=modules/ecr" >> $GITHUB_ENV ;;
         ec2) echo "module_path=modules/ec2" >> $GITHUB_ENV ;;
         iot) echo "module_path=modules/iot" >> $GITHUB_ENV ;;
+        iot_fleet) echo "module_path=modules/iot_fleet" >> $GITHUB_ENV ;;
         api_gateway) echo "module_path=modules/api_gateway" >> $GITHUB_ENV ;;
         *) echo "Invalid module selected"; exit 1 ;;
         esac
