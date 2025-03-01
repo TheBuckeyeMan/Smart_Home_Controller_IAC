@@ -5,6 +5,7 @@ resource "aws_iot_provisioning_template" "smart_home_fleet_template"{
     name = "smart_home_fleet_template"
     description = "Template to set up new rasberry pi devices to the smart home"
     provisioning_role_arn = data.aws_iam_role.fleet_provisioning_role.arn
+    enabled = true
 
     template_body = jsonencode({
     Parameters = {
@@ -21,7 +22,7 @@ resource "aws_iot_provisioning_template" "smart_home_fleet_template"{
       certificate = {
         Type = "AWS::IoT::Certificate"
         Properties = {
-          CertificateId = { Ref = "AWS::IoT::Certificate::Id" }
+          CertificateId = { Ref = "CSR" }
           Status = "ACTIVE"
         }
       }
