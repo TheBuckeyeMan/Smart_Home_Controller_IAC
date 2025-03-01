@@ -14,7 +14,7 @@ resource "aws_iot_provisioning_template" "smart_home_fleet_template"{
       thing = {
         Type = "AWS::IoT::Thing"
         Properties = {
-          ThingName = { Ref = "SerialNumber" }
+          ThingName     = { Ref = "SerialNumber" }
           ThingTypeName = "raspberry_pi"
         }
       }
@@ -23,7 +23,6 @@ resource "aws_iot_provisioning_template" "smart_home_fleet_template"{
         Properties = {
           Status = "ACTIVE"
         }
-        # certificateId = { Ref = "certificate" }
       }
       policy = {
         Type = "AWS::IoT::Policy"
@@ -31,13 +30,13 @@ resource "aws_iot_provisioning_template" "smart_home_fleet_template"{
           PolicyName = "smart_home_pi_policy"
         }
       }
-      thingPrincipalAttachment = { 
-            Type = "AWS::IoT::ThingPrincipalAttachment"
-            Properties = {
-                ThingName = { Ref = "SerialNumber" },
-                Principal  = { Ref = "certificate" }
-            }
+      thingPrincipalAttachment = {
+        Type = "AWS::IoT::ThingPrincipalAttachment"
+        Properties = {
+          ThingName = { Ref = "SerialNumber" }
+          Principal = { Ref = "certificate" }
         }
+      }
     }
   })
   tags = {
