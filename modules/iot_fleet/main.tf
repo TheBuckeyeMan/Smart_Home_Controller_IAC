@@ -22,7 +22,6 @@ resource "aws_iot_provisioning_template" "smart_home_fleet_template"{
       certificate = {
         Type = "AWS::IoT::Certificate"
         Properties = {
-          CertificateSigningRequest = { Ref = "CSR" }
           Status = "ACTIVE"
         }
       }
