@@ -29,6 +29,13 @@ resource "aws_iot_provisioning_template" "smart_home_fleet_template"{
           PolicyName = "smart_home_pi_policy"
         }
       }
+      thingPolicyAttachment = {
+        Type = "AWS::IoT::ThingPrincipalAttachment"
+        Properties = {
+            ThingName = { Ref = "SerialNumber" }
+            Principal = { Ref = "certificate"}
+        }
+      }
     }
   })
   tags = {
@@ -55,6 +62,10 @@ resource "aws_iot_topic_rule" "device_disconnection_alert_rule" {
     #     message_format = "RAW"
     # }
 
+    depends_on = [ 
+        aws_iot_provisioning_template.smart_home_fleet_template 
+    ]
+
     tags = {
         Name = "device_disconnection_alert_rule"
     }
@@ -73,6 +84,10 @@ resource "aws_iot_topic_rule" "device_registration_log_rule"{
     #   log_group_name = aws_cloudwatch_log_group.iot_registration_log_group.name #Need to create this Log Group
     #   role_arn = #Need to make this IAM Role to give permissions
     # }
+
+    depends_on = [ 
+        aws_iot_provisioning_template.smart_home_fleet_template 
+    ]
 
     tags = {
         Name = "device_registration_log_rule"
