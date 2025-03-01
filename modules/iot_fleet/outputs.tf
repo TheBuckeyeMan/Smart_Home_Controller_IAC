@@ -1,3 +1,15 @@
+output "template_provisional_iam_role_name"{
+    value = data.aws_iam_role.fleet_provisioning_role.name
+}
+
+output "template_provisional_iam_role_arn"{
+    value = data.aws_iam_role.fleet_provisioning_role.arn
+}
+
+output "template_provisional_iam_role_name"{
+    value = data.aws_iam_role.fleet_provisioning_role.arn
+}
+
 output "iot_fleet_raspberry_pi_termplate_arn" {
     value = aws_iot_provisioning_template.smart_home_fleet_template.arn
 }
