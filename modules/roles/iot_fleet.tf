@@ -32,7 +32,10 @@ resource "aws_iam_policy" "fleet_provisioning_policy"{
           "iot:CreateThing",
           "iot:CreateCertificateFromCsr",
           "iot:AttachThingPrincipal",
-          "iot:AttachPolicy"
+          "iot:AttachPolicy",
+          "iot:DescribeProvisioningTemplate",
+          "iot:ListProvisioningTemplates",
+          "iot:CreateProvisioningClaim"
         ]
         Resource = "*"
       }
