@@ -37,52 +37,52 @@ resource "aws_iot_provisioning_template" "smart_home_fleet_template" {
 
 # IOT Rules for Lifecycle changes
 #Detect when a device gets disconnected
-resource "aws_iot_topic_rule" "device_disconnection_alert_rule" {
-    name = "device_disconnection_alert"
-    description = "IOT Role for the template for new devices that will detect when the device goes offline"
-    #Im not convinced this is correct
-    sql = "Select * FROM $aws/events/presence/disconnected/#"
-    #sql = "SELECT * FROM \"$aws/events/presence/disconnected/+\""
-    sql_version = "2016-03-23"
-    enabled = true
+# resource "aws_iot_topic_rule" "device_disconnection_alert_rule" {
+#     name = "device_disconnection_alert"
+#     description = "IOT Role for the template for new devices that will detect when the device goes offline"
+#     #Im not convinced this is correct
+#     sql = "Select * FROM $aws/events/presence/disconnected/#"
+#     #sql = "SELECT * FROM \"$aws/events/presence/disconnected/+\""
+#     sql_version = "2016-03-23"
+#     enabled = true
 
-    # sns {
-    #     #We need to make this resource for it to be enabled
-    #     target_arn = aws_sns_topic.iot_error_alerts.arn'
-    #     rolerole_arn = data.aws_iam_role.iot_sns_role.arn
-    #     message_format = "RAW"
-    # }
+#     # sns {
+#     #     #We need to make this resource for it to be enabled
+#     #     target_arn = aws_sns_topic.iot_error_alerts.arn'
+#     #     rolerole_arn = data.aws_iam_role.iot_sns_role.arn
+#     #     message_format = "RAW"
+#     # }
 
-    depends_on = [ 
-        aws_iot_provisioning_template.smart_home_fleet_template 
-    ]
+#     depends_on = [ 
+#         aws_iot_provisioning_template.smart_home_fleet_template 
+#     ]
 
-    tags = {
-        Name = "device_disconnection_alert_rule"
-    }
-}
+#     tags = {
+#         Name = "device_disconnection_alert_rule"
+#     }
+# }
 
 # IOT Rule to Detect when a device is registered
-resource "aws_iot_topic_rule" "device_registration_log_rule"{
-    name = "device_registration_log"
-    description = "IOT Rule to detect when a new device is registered"
-    #NOt convinced this wont have to change
-    #sql = "SELECT * FROM $aws/events/thing/+/created"
-    sql = "SELECT * FROM \"$aws/events/thing/+/created\""
-    sql_version = "2016-03-23"
-    enabled = true
+# resource "aws_iot_topic_rule" "device_registration_log_rule"{
+#     name = "device_registration_log"
+#     description = "IOT Rule to detect when a new device is registered"
+#     #NOt convinced this wont have to change
+#     #sql = "SELECT * FROM $aws/events/thing/+/created"
+#     sql = "SELECT * FROM \"$aws/events/thing/+/created\""
+#     sql_version = "2016-03-23"
+#     enabled = true
 
-    # cloudwatch_logs {
-    #   log_group_name = aws_cloudwatch_log_group.iot_registration_log_group.name #Need to create this Log Group
-    #   role_arn = #Need to make this IAM Role to give permissions
-    # }
+#     # cloudwatch_logs {
+#     #   log_group_name = aws_cloudwatch_log_group.iot_registration_log_group.name #Need to create this Log Group
+#     #   role_arn = #Need to make this IAM Role to give permissions
+#     # }
 
-    depends_on = [ 
-        aws_iot_provisioning_template.smart_home_fleet_template 
-    ]
+#     depends_on = [ 
+#         aws_iot_provisioning_template.smart_home_fleet_template 
+#     ]
 
-    tags = {
-        Name = "device_registration_log_rule"
-    }
+#     tags = {
+#         Name = "device_registration_log_rule"
+#     }
 
-}
+# }
