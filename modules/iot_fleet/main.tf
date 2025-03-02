@@ -1,50 +1,38 @@
 # Module iot_fleet
 # This template makes the aws IoT Fleet template for the new rasberry pi devices to connect to after we make the template, we atttach the rules to the template below
 #The main purpose is to set up the template to accept the pre installed certificate, then for the device to get a new one automatically for the topic
-resource "aws_iot_provisioning_template" "smart_home_fleet_template"{
-    name = "smart_home_fleet_template"
-    description = "Template to set up new rasberry pi devices to the smart home"
+resource "aws_iot_provisioning_template" "smart_home_fleet_template" {
+    name                  = "smart_home_fleet_template"
+    description           = "Template to set up new Raspberry Pi devices for the smart home"
     provisioning_role_arn = data.aws_iam_role.fleet_provisioning_role.arn
-    enabled = true
+    enabled               = true
 
     template_body = jsonencode({
-    Parameters = {
-      SerialNumber = { Type = "String" }
+        Parameters = {
+            SerialNumber = { Type = "String" }
+        }
+        Resources = {
+            certificate = {
+                Type = "AWS::IoT::Certificate"
+                Properties = {
+                    CertificateId = { Ref = "AWS::IoT::Certificate::Id" }
+                    Status        = "ACTIVE"
+                }
+            }
+            policy = {
+                Type = "AWS::IoT::Policy"
+                Properties = {
+                    PolicyName = "smart_home_pi_policy"
+                }
+            }
+        }
+    })
+
+    tags = {
+        Name = "smart_home_raspberry_pi_fleet_template"
     }
-    Resources = {
-    #   thing = {
-    #     Type = "AWS::IoT::Thing"
-    #     Properties = {
-    #       ThingName = { Ref = "SerialNumber" }
-    #       ThingTypeName = "raspberry_pi"
-    #     }
-    #   }
-      certificate = {
-        Type = "AWS::IoT::Certificate"
-        Properties = {
-          CertificateId = { Ref = "AWS::IoT::Certificate::Id" },
-          Status = "ACTIVE"
-        }
-      }
-      policy = {
-        Type = "AWS::IoT::Policy"
-        Properties = {
-          PolicyName = "smart_home_pi_policy"
-        }
-      }
-      thingPrincipalAttachment = {
-        Type = "AWS::IoT::ThingPrincipalAttachment"
-        Properties = {
-          ThingName = { Ref = "SerialNumber" }
-          Principal = { Ref = "certificate" }
-        }
-      }
-    }
-  })
-  tags = {
-    Name = "smart_home_rasberry_pi_fleet_template"
-  }
 }
+
 
 
 # IOT Rules for Lifecycle changes
