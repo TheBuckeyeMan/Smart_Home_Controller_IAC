@@ -12,16 +12,17 @@ resource "aws_iot_provisioning_template" "smart_home_fleet_template"{
       SerialNumber = { Type = "String" }
     }
     Resources = {
-      thing = {
-        Type = "AWS::IoT::Thing"
-        Properties = {
-          ThingName     = { Ref = "SerialNumber" }
-          ThingTypeName = "raspberry_pi"
-        }
-      }
+    #   thing = {
+    #     Type = "AWS::IoT::Thing"
+    #     Properties = {
+    #       ThingName = { Ref = "SerialNumber" }
+    #       ThingTypeName = "raspberry_pi"
+    #     }
+    #   }
       certificate = {
         Type = "AWS::IoT::Certificate"
         Properties = {
+          CertificateId = { Ref = "AWS::IoT::Certificate::Id" },
           Status = "ACTIVE"
         }
       }
