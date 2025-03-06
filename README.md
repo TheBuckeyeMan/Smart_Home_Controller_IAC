@@ -127,13 +127,13 @@ use to connect to topic
 4. Log Response Messages
 
 # Implementation for RAsberry pi devices post set up of controller
-1. Configure AWS IoT Core Resoirce
+1. Configure AWS IoT Core Resource
 2. Update IAM Roles + AWS Infra.
 
 
 # Goals and Outcomes
 1. Auto load new certificates on new devices
-2. Detect offline Devices: LEverage oT Lifecycle Events for best practice
+2. Detect offline Devices: Leverage IoT Lifecycle Events for best practice
 2. Daily check to Monitor existing devices, send alert in the event one goes down `Yes! AWS IoT Core provides a feature called "Device Shadow" and "MQTT Last Will & Testament (LWT)"                                                                                   to track device connection status.
                                                                                     You can use AWS Lambda + IoT Device Shadow or IoT Lifecycle Events to detect if a device goes offline.` The AWS IoT Device Shadow stores a JSON document that tracks device state, including last connection timestamp. - not recomended for best practice
 
