@@ -14,12 +14,14 @@ resource "aws_iot_provisioning_template" "smart_home_fleet_template" {
         }
         Resources = {
             //Create the aws "Thing" - Required for  Bootstray cert
-            Type = "AWS::IoT::Thing"
-            Properties = {
-                ThingName = { Ref = "SerialNumber" }
-                AttributePayload = {
-                    attributes = {
-                        device_type = "raspberry_pi"
+            Thing = {
+                Type = "AWS::IoT::Thing"
+                Properties = {
+                    ThingName = { Ref = "SerialNumber" }
+                    AttributePayload = {
+                        attributes = {
+                            device_type = "raspberry_pi"
+                        }
                     }
                 }
             }
