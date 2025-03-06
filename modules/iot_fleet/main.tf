@@ -35,6 +35,7 @@ resource "aws_iot_provisioning_template" "smart_home_fleet_template" {
             NewCertificate = {
                 Type = "AWS::IoT::Certificate"
                 Properties = {
+                    CertificateId = { Ref = "CertificateId" }
                     Status = "ACTIVE"
                 }
             }
