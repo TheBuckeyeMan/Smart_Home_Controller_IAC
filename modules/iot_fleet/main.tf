@@ -10,15 +10,39 @@ resource "aws_iot_provisioning_template" "smart_home_fleet_template" {
     template_body = jsonencode({
         Parameters = {
             SerialNumber = { Type = "String" }
+            CertificateId = { Type = "String" } #Added for bootstrap certificate we will add to the raspberry pi
         }
         Resources = {
-            certificate = {
+            //Create the aws "Thing" - Required for  Bootstray cert
+            Type = "AWS::IoT::Thing"
+            Properties = {
+                ThingName = { Ref = "SerialNumber" }
+                AttributePayload = {
+                    attributes = {
+                        device_type = "raspberry_pi"
+                    }
+                }
+            }
+            Certificate = {
                 Type = "AWS::IoT::Certificate"
                 Properties = {
-                    CertificateId = { Ref = "AWS::IoT::Certificate::Id" }
+                    CertificateId = { Ref = "CertificateId" } #Use the bootstrap certificate for authentication
                     Status        = "ACTIVE"
                 }
             }
+            NewCertificate = {
+                Type = "AWS::IoT::Certificate"
+                Properties = {
+                    Status = "ACTIVE"
+                }
+            }
+            # certificate = {
+            #     Type = "AWS::IoT::Certificate"
+            #     Properties = {
+            #         CertificateId = { Ref = "AWS::IoT::Certificate::Id" }
+            #         Status        = "ACTIVE"
+            #     }
+            # }
             policy = {
                 Type = "AWS::IoT::Policy"
                 Properties = {
