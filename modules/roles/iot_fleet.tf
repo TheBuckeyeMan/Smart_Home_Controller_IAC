@@ -1,4 +1,5 @@
 #IAM Role for the IoT Fleet Template and Rasberry Pi Devices themselves
+#IF WE REUSE THIS CODE BASE, DO NOT USE THIS CODE HERE, WE WILL NEED THIS ROLE ON THE PI SIDE OF THINGS - OKAY TO DELETE THIS FILE BEFORE PROVISIONING
 resource "aws_iam_role" "fleet_provisioning_role"{
     name = "fleet_provisioning_role"
 
