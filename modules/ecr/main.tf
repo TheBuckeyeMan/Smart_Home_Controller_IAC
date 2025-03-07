@@ -24,6 +24,18 @@ resource "aws_ecr_repository_policy" "smart_home_ecr_policy"{
                     "ecr:GetDownloadUrlForLayer",
                     "ecr:BatchGetImage"
                 ]
+            },
+            {
+                Sid    = "AllowLambdaPull"
+                Effect = "Allow"
+                Principal = {
+                AWS =  data.aws_iam_role.smart_home_lambda_role.arn # Replace with the actual Lambda IAM role name - Made in the Pi Roles module, so will not be deployed yet if doing this first time
+                }
+                Action = [
+                "ecr:GetDownloadUrlForLayer",
+                "ecr:BatchCheckLayerAvailability",
+                "ecr:BatchGetImage"
+                ]
             }
         ]
     })
