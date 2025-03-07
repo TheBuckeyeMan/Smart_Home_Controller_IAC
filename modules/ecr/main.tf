@@ -30,8 +30,8 @@ resource "aws_ecr_repository_policy" "smart_home_ecr_policy"{
                 Effect = "Allow"
                 Principal = {
                 AWS = [
-                    "arn:aws:iam::339712758982:role/pi_side_lambda_task_1_role",
-                    "arn:aws:iam::339712758982:role/pi_side_lambda_task_2_role"  # Add additional roles here for ECR Access for Lambda
+                    "arn:aws:iam::339712758982:role/pi_side_lambda_task_1_role"
+  #                  "arn:aws:iam::339712758982:role/pi_side_lambda_task_2_role"  # Add additional roles here for ECR Access for Lambda
                 ]
                 }
                 Action = [
