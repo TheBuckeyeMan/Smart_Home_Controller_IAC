@@ -156,3 +156,10 @@ Device Shaddow(If Used) 1.25$ per million Operations
 Email: Free
 SMS 0.0075$ per message
 Webhook: Free
+
+
+
+# Notes 
+1. Create iot template 2. Create the DynamoDB to store serial Numbers 3. Create the lambdas to read form the dynamo db(Will be used to validate the device is a registered device before issuing a new certificate), as well as a lambda to pull the dynamo, check if the new serial number already exists and if so exit, if not post to the dynamo db 4. Set up the api gateway and configure it for the lambdas(SO the cicd process can send a post request to api gateway using a secure key(To make it secure, a static api key is fine) and then pass in the serial number to be posted in the database(Via the lambda). 5. Create the dummy certificate that aws template will recognize for us to use to get the new cert. After all of that is set up, We will finally have the option to send the dummy cert to get the new cert and function as expected, then I can work on the application correct? 
+
+Verification that the bootstrap certificate is validated properly to take place in the lambda function
