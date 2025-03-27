@@ -32,6 +32,7 @@ resource "aws_iam_policy" "fleet_provisioning_policy"{
         Action   = [
           "iot:CreateThing",
           "iot:CreateCertificateFromCsr",
+          "iot:CreateKeysAndCertificate",
           "iot:AttachThingPrincipal",
           "iot:AttachPolicy",
           "iot:DescribeProvisioningTemplate",
