@@ -7,10 +7,10 @@ IAC for all required resources for the smart home controller and related resourc
 3.Roles
 4.Roles: Pi Side
 4.ECR - Do not need to delete if we need to destroy
-5.Ec2
-6.IOT
-7.IOT_FLEET
-7.API Gateway
+5.Ec2 - EC2 Stopped
+6.IOT - destroyed
+7.IOT_FLEET - destroyed
+7.API Gateway - destroyed
 
 
 
